@@ -8,11 +8,8 @@ Versión 1.0 ( 10 Jul 2020 )
 
 Requerimientos:
   
-  WordPress v 5.5
-  Flatsome v 3.9.0
-  WooCommerce v 4.6.1
+  WordPress v 5.5 | Flatsome v 3.9.0 | WooCommerce v 4.6.1
   
   Adicionales:
   
-  WooCommerce MercadoPago v 3.1.1 
-  YITH WooCommerce Role Based Prices Premium v 1.1.13
+  WooCommerce MercadoPago v 3.1.1 | YITH WooCommerce Role Based Prices Premium v 1.1.13
