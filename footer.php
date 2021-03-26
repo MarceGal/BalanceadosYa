@@ -20,7 +20,7 @@ global $flatsome_opt;
 
 <?php wp_footer(); ?>
 
-<a id="ws-button" href="https://wa.me/5493446549682"><i class="fa fa-whatsapp"></i></a>		
+<a id="ws-button" href="https://wa.me/5493446549682"><i class="fa fa-whatsapp"></i></a>	
 
 </body>
 </html>

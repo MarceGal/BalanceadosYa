@@ -44,7 +44,7 @@ function formulario_registro_adaptado() {?>
 	   
 			<label for="reg_billing_phone"><?php _e( 'Phone', 'woocommerce' ); ?><span class="required">*</span></label>
 			
-			<input type="text" class="input-text" name="billing_phone" id="reg_billing_phone" value="<?php esc_attr_e( $_POST['billing_phone'] ); ?>" />
+			<input type="text" class="input-text" name="billing_phone" id="reg_billing_phone" value="<?php if ( ! empty( $_POST['billing_first_name'] ) ) esc_attr_e( $_POST['billing_phone'] ); ?>" />
       
 		</p>
 		-->
@@ -64,7 +64,7 @@ function formulario_registro_adaptado() {?>
 	   
 			<label for="user_mascota_birth_date">¿ En qué fecha nació tu mascota ?</label>
 			
-			<input type="date" class="input-date" name="user_mascota_birth_date" id="user_mascota_birth_date" value="<?php esc_attr_e( $_POST['user_mascota_birth_date'] ); ?>" min="2000-01-01" max="<?php echo date("Y-m-d")?>"/>
+			<input type="date" class="input-date" name="user_mascota_birth_date" id="user_mascota_birth_date" value="<?php if ( ! empty( $_POST['user_mascota_birth_date'] ) ) esc_attr_e( $_POST['user_mascota_birth_date'] ); ?>" min="2000-01-01" max="<?php echo date("Y-m-d")?>"/>
       
 		</p>
        

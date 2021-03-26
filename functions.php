@@ -1,5 +1,7 @@
 <?php 
 
+define("VILLAGUAY_POSTCODE", "3240");
+define("LARROQUE_POSTCODE", "2854");
 
 //*****************************************************
 //**ADD CSS ADICIONAL *********************************
@@ -26,33 +28,51 @@ add_action('wp_enqueue_scripts', 'BYA_enqueue_styles');
 function BYA_add_favicon(){ 
 
 ?>
-    <!-- Custom Favicons -->	
-	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-57x57.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-114x114.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-72x72.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-144x144.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="60x60" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-60x60.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-120x120.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-76x76.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-152x152.png" />
-	
-	<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-196x196.png" sizes="196x196" />
-	<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-96x96.png" sizes="96x96" />
-	<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-32x32.png" sizes="32x32" />
-	<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-16x16.png" sizes="16x16" />
-	<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-128.png" sizes="128x128" />
-	
-	<meta name="msapplication-square70x70logo" content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-70x70.png" />
-	<meta name="msapplication-square150x150logo" content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-150x150.png" />
-	<meta name="msapplication-wide310x150logo" content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x150.png" />
-	<meta name="msapplication-square310x310logo" content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x310.png" />
-	
-	<link rel="manifest" href="<?php echo get_stylesheet_directory_uri();?>/favicons/manifest.json">
-	
-	<meta name="application-name" content="BalanceadosYa!"/>
-	<meta name="msapplication-TileColor" content="#FFE781">
-	<meta name="msapplication-TileImage" content="<?php echo get_stylesheet_directory_uri();?>/favicons/ms-icon-144x144.png">
-	<meta name="theme-color" content="#FFE781">
+<!-- Custom Favicons -->
+<link rel="apple-touch-icon-precomposed" sizes="57x57"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-57x57.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-114x114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-72x72.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-144x144.png" />
+<link rel="apple-touch-icon-precomposed" sizes="60x60"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-60x60.png" />
+<link rel="apple-touch-icon-precomposed" sizes="120x120"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-120x120.png" />
+<link rel="apple-touch-icon-precomposed" sizes="76x76"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-76x76.png" />
+<link rel="apple-touch-icon-precomposed" sizes="152x152"
+    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-152x152.png" />
+
+<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-196x196.png"
+    sizes="196x196" />
+<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-96x96.png"
+    sizes="96x96" />
+<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-32x32.png"
+    sizes="32x32" />
+<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-16x16.png"
+    sizes="16x16" />
+<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-128.png"
+    sizes="128x128" />
+
+<meta name="msapplication-square70x70logo"
+    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo"
+    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo"
+    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo"
+    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x310.png" />
+
+<link rel="manifest" href="<?php echo get_stylesheet_directory_uri();?>/favicons/manifest.json">
+
+<meta name="application-name" content="BalanceadosYa!" />
+<meta name="msapplication-TileColor" content="#FFE781">
+<meta name="msapplication-TileImage"
+    content="<?php echo get_stylesheet_directory_uri();?>/favicons/ms-icon-144x144.png">
+<meta name="theme-color" content="#FFE781">
 
 
 
@@ -60,62 +80,9 @@ function BYA_add_favicon(){
 
 add_action('wp_head','BYA_add_favicon');
 
-//*****************************************************
-//**GOOGLE ANALYTICS **********************************
-//*****************************************************
+include get_stylesheet_directory() . '/inc/google-analytics.php';
 
-
-function BYA_add_googleAnalyticsScript(){
-
-?>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-150064125-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-150064125-1');
-</script>
-
-<?php
-
-}
-
-add_action('wp_head','BYA_add_googleAnalyticsScript');
-
-
-//*****************************************************
-//**ONESIGNAL PUSH NOTIFICATIONS **********************
-//*****************************************************
-
-
-function BYA_add_onesignalScript(){
-
-?>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-  var OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "fbc7dcc4-4beb-43d9-9325-b9da2903dee0",
-      notifyButton: {
-        enable: false	,
-      },
-    });
-  });
-</script>
-<?php
-
-}
-
-if($_SERVER["SERVER_NAME"]=="balanceadosya.com.ar" || $_SERVER["SERVER_NAME"]=="www.solfoto.com.ar")
-{
-
-    add_action('wp_head','BYA_add_onesignalScript');
-
-}
+include get_stylesheet_directory() . '/inc/push-notifications.php';
 
 //*****************************************************
 //**FACEBOOK PIXEL ************************************
@@ -128,20 +95,29 @@ function BYA_add_facebookPixelScript(){
 
 <!-- Facebook Pixel Code -->
 <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '242080206560811');
-  fbq('track', 'PageView');
+! function(f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function() {
+        n.callMethod ?
+            n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = '2.0';
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s)
+}(window, document, 'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '242080206560811');
+fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=242080206560811&ev=PageView&noscript=1"
-/></noscript>
+        src="https://www.facebook.com/tr?id=242080206560811&ev=PageView&noscript=1" /></noscript>
 <!-- End Facebook Pixel Code -->
 
 <?php
@@ -161,6 +137,43 @@ function cc_mime_types($mimes) {
  return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
+ 
+//*****************************************************
+//**SEO - NO INDEX PAGES *********************
+//*****************************************************
+
+/*
+
+OMITIMOS LA INDEXACIÓN DE PAGINAS QUE NO DESEAMOS SEAN INDEXADAS POR BOTS
+
+Política de privacidad -> 3 -> https://balanceadosya.com.ar/?p=3
+Terminos -> 3344 -> https://balanceadosya.com.ar/?p=3344
+Reclamos -> 4417 -> https://balanceadosya.com.ar/?p=4417
+Pago -> 627 -> https://balanceadosya.com.ar/?p=627
+Pago pendiente -> 7625 -> https://balanceadosya.com.ar/?p=7625
+compra exitosa -> 7649-> https://balanceadosya.com.ar/?p=7649
+Pago rechazado -> 7642 -> https://balanceadosya.com.ar/?p=7642
+
+*/
+
+define("NO_INDEX_POSTS_IDS",  [3, 3344, 4417, 627, 7625, 7649, 7642] );
+
+add_action( 'wp_head', function() {
+
+    global $post;    
+
+    foreach(NO_INDEX_POSTS_IDS as  $post_id)
+    {
+       if ($post->ID == $post_id ) {
+            echo '<meta name="robots" content="noindex, nofollow">';
+            return true;
+       }
+    } 
+
+    return false;
+
+ } );
+
  
 //*****************************************************
 //**USER AGENT DETECTION UTILITIES *********************
@@ -300,19 +313,17 @@ function mailMarce($message)
 	
 }	
 
+
 //*****************************************************
 //*****************************************************
 //*****************************************************
 
-//include get_stylesheet_directory() . '/includes/admin-sign-in.php';
-
-include get_stylesheet_directory() . '/includes/checkout.php';
-include get_stylesheet_directory() . '/includes/my-account.php';
-include get_stylesheet_directory() . '/includes/user-profile.php';
-include get_stylesheet_directory() . '/includes/sign-up.php';
-include get_stylesheet_directory() . '/includes/roles.php';
-include get_stylesheet_directory() . '/includes/alta-mayoristas.php';
-include get_stylesheet_directory() . '/includes/admin-menu.php';
-
-
+//include get_stylesheet_directory() . '/inc/admin-sign-in.php';
+include get_stylesheet_directory() . '/inc/checkout.php';
+include get_stylesheet_directory() . '/inc/my-account.php';
+include get_stylesheet_directory() . '/inc/user-profile.php';
+include get_stylesheet_directory() . '/inc/sign-up.php';
+include get_stylesheet_directory() . '/inc/roles.php';
+include get_stylesheet_directory() . '/inc/alta-mayoristas.php';
+include get_stylesheet_directory() . '/inc/admin-menu.php';
 ?>

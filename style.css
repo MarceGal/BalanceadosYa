@@ -5,7 +5,7 @@ Description:
 Author: Claudio Marcelo Galarza
 Author URI: https://linkedin.com/in/marcelogalarza/
 Template: flatsome
-Version: 0.9
+Version: 1.5
 
 Azul: #2BC1D3 rgba(43,193,211,1)
 Amarillo: #F7D100 rgba(247,209,0,1)
@@ -14,6 +14,7 @@ Amarillo trigo: #E7B200
 Amarillo pastel: #FFE781
 Verde musgo: #00B894 rgba(0,184,148,1)
 Rojo tomate: #D63031 rgba(214,48,49,1)
+
 */
 
 body {
@@ -176,7 +177,7 @@ em {
 
 th,
 td {
-    font-size: 0.8em;
+    font-size: 1rem;
 }
 
 
@@ -232,7 +233,6 @@ p.demo_store a {
 
 .message-container {
     margin-bottom: 1em;
-    text-align: center;
 }
 
 .message-container a {
@@ -255,11 +255,10 @@ p.demo_store a {
 }
 
 .success-color {
-    color: #fff;
-    background: #00B894;
-    padding: 7px 15px 5px;
+    color: #00B894;
+    padding: 1rem !important;
     -webkit-border-radius: 5px;
-    border-radius: 5px;
+    border: 1px solid #e5e5e5;
 }
 
 .woocommerce-customer-logout .success-color {
@@ -380,10 +379,6 @@ input[type='submit'],
     border: 0!important;
     -webkit-border-radius: 35px !important;
     border-radius: 35px !important;
-}
-
-.quantity .button {
-    font-size: .97em;
 }
 
 button.toggle {
@@ -572,7 +567,7 @@ body .stuck #logo img {
 }
 
 .breadcrumbs {
-    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .product-info .breadcrumbs {
@@ -770,6 +765,20 @@ del span.amount {}
 }
 
 
+/* Tienda -> Producto */
+
+.zoom-button.button.icon.circle>i:only-child {
+    margin: 7px 0 0 0px;
+}
+
+.quantity .minus,
+.quantity .plus {
+    font-size: .97em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+
 /*Tienda SIDEBAR*/
 
 #shop-sidebar {
@@ -915,6 +924,13 @@ form.woocommerce-checkout {
     margin-top: 30px;
 }
 
+.page-checkout p a,
+.payment_box a {
+    color: #00B894;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 .woocommerce-billing-fields {
     padding-top: 0px;
     border-top: 0px solid #ddd;
@@ -981,8 +997,6 @@ form.checkout h3 {
     padding: 1em .2em;
 }
 
-.shipping__table--multiple .shipping__list_label {}
-
 .pickup-location-field .select2-container {
     margin-top: 1em;
 }
@@ -1015,13 +1029,23 @@ form.checkout h3 {
     color: #D63031;
 }
 
+.shop_table tfoot th {
+    font-size: 1.2rem;
+}
+
 .shop_table ul li,
 .checkout ul li {
-    margin-bottom: 1em;
+    margin: 1rem 0;
 }
 
 .checkout ul li em {
     float: left;
+}
+
+label.shipping__list_label {
+    padding: 0;
+    opacity: 1;
+    text-align: right;
 }
 
 .widget_shopping_cart .button {
@@ -1075,13 +1099,15 @@ select2-search__field {
     line-height: 1em;
 }
 
-select2-search__field,
+.select2-search__field,
 .cart-container span.amount {
-    color: #2BC1D3
+    color: #525452;
+    font-size: 1rem;
 }
 
 .order-total .woocommerce-Price-amount {
-    font-size: 1.5em;
+    font-size: 1.5em !important;
+    color: #2BC1D3 !important;
 }
 
 .select2-container .select2-choice,
@@ -1412,6 +1438,10 @@ select2-search__field,
 
 .ux-logo.criadores img {
     background-image: url(images/Logo-Mcriadores.svg);
+}
+
+.ux-logo.royal-canin img {
+    background-image: url(images/Logo-RoyalCanin.svg);
 }
 
 .section {}
@@ -1828,9 +1858,6 @@ select2-search__field,
     .checkout ul li em {
         font-size: 0.9em;
     }
-    .shop_table tr td:last-of-type {
-        text-align: center;
-    }
     .woocommerce-order-details h2 {
         margin-bottom: 1.5em;
     }
@@ -1842,8 +1869,7 @@ select2-search__field,
     .checkout-button,
     .widget_price_filter .price_slider_amount .button,
     .widget_shopping_cart .button,
-    .coupon input[type='submit'],
-    {
+    .coupon input[type='submit'] {
         /*font-size: 1em;*/
     }
     /*Footer*/

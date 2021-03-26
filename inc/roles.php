@@ -119,9 +119,10 @@ remove_role( 'editor' );
 remove_role( 'contributor' );
 remove_role( 'author' );
 
-
 add_role( 'distributor', 'Distribuidor', $capabilities );
-add_role( 'featured_client', 'Cliente destacado', $capabilities );
+//add_role( 'featured_client', 'Cliente destacado', $capabilities );
+add_role( 'client_level_1', 'Cliente Nivel 1', $capabilities );
+add_role( 'client_level_2', 'Cliente Nivel 2', $capabilities );
 
 // Ocultar barras administrativas
 
