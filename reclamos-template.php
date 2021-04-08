@@ -7,7 +7,6 @@ Template Name: Reclamos
 // https://docs.woocommerce.com/wc-apidocs/class-WC_Order.html
 
 
-
 if ( !is_user_logged_in()){	
 	
 	$tmp_url = '/tienda/mi-cuenta/?';
@@ -17,8 +16,6 @@ if ( !is_user_logged_in()){
 	exit();
 	
 }
-	
-	
 	
 $order_id = intval($_GET['order_id']);
 
@@ -161,33 +158,33 @@ get_header();
 do_action( 'flatsome_before_page' ); ?>
 
 <div id="content" class="content-area page-wrapper" role="main">
-	<div class="row row-main">
-		<div class="large-12 col">
-			<div class="col-inner">
-				
-				
-				<header class="entry-header">
-					<h1 class="entry-title mb uppercase"><?php the_title(); ?></h1>
-				</header><!-- .entry-header -->
-				
-				
-			<?php 
+    <div class="row row-main">
+        <div class="large-12 col">
+            <div class="col-inner">
+
+
+                <header class="entry-header">
+                    <h1 class="entry-title mb uppercase"><?php the_title(); ?></h1>
+                </header><!-- .entry-header -->
+
+
+                <?php 
 				
 				
 				while ( have_posts() ) : the_post(); ?>
-				
-					<?php do_action( 'flatsome_before_page_content' ); ?>
-					
-						<?php the_content(); ?>
 
-						<?php if ( comments_open() || '0' != get_comments_number() ){
+                <?php do_action( 'flatsome_before_page_content' ); ?>
+
+                <?php the_content(); ?>
+
+                <?php if ( comments_open() || '0' != get_comments_number() ){
 							comments_template(); } ?>
 
-					<?php do_action( 'flatsome_after_page_content' ); ?>
-				
-			<?php endwhile; // end of the loop. ?>
-				
-			<?php
+                <?php do_action( 'flatsome_after_page_content' ); ?>
+
+                <?php endwhile; // end of the loop. ?>
+
+                <?php
 				
 				
 				if($redirectAfterError )
@@ -212,78 +209,80 @@ do_action( 'flatsome_before_page' ); ?>
 				} else {
 					
 					
-						?>					
-						
-							
-						<?php 
+						?>
+
+
+                <?php 
 						
 						if(isset($emailSent) && $emailSent == true) { 
 							
-						?>	
-							
-							<p>🐶 Muchas gracias, <strong><?php echo $userData->display_name ;?></strong>. </p>	
-							
-							<script>
-								setTimeout(function(){
-									window.location.href = '<?php echo home_url(); ?>';
-								}, 5000);
-							</script>
-									
-							<p>Aguardá unos segundos, estamos redirigiendote a la pagina principal.</p>
-						
-						<?php 
+						?>
+
+                <p>🐶 Muchas gracias, <strong><?php echo $userData->display_name ;?></strong>. </p>
+
+                <script>
+                setTimeout(function() {
+                    window.location.href = '<?php echo home_url(); ?>';
+                }, 5000);
+                </script>
+
+                <p>Aguardá unos segundos, estamos redirigiendote a la pagina principal.</p>
+
+                <?php 
 						
 						} else { ?>
-						
-							<p>Hola, <strong><?php echo $userData->display_name ;?></strong>. </p>	
-						
-							<p>🐶 Vamos a procesar tu reclamo. </p>	
-							
-							<p>Por favor, completá el formulario con los motivos de tu reclamo: </p>		
-						
-						
-							<form action="<?php the_permalink(); ?>" id="contactForm" method="post" class="contact-form" >
-								
-								<div class="grunion-field-wrap grunion-field-text-wrap">
-								
-									<label for="commentsText">Motivo del reclamo <span>(obligatorio)</span>: </label>
-									
-									<textarea name="comments" class="input-text " id="commentsText" placeholder="¿Nos compartirías los detalles del inconveniente?" rows="2" cols="5" required aria-required="true"><?php 
-										
-										/*
-										if(isset($_POST['comments'])) { 
-										
-											if(function_exists('stripslashes')) 
-											{ 
-												echo stripslashes($_POST['comments']); 
-											
-											} else { 
-											
-												echo $_POST['comments']; 
-												
-											} 
-											
-										} 
-										*/
-										
-										?></textarea>
-															
-								
-								</div>
 
-								<p class="contact-submit">
-								
-									<button type="submit" class="pushbutton-wide"> 👉 Enviar </button>		
-									
-									<input type="hidden" id="submitted" name="submitted" value="true" />
-									
-									<input type="hidden" id="order_id" name="order_id" value="<?php echo $order_id ; ?>">
+                <p>Hola, <strong><?php echo $userData->display_name ;?></strong>. </p>
+
+                <p>🐶 Vamos a procesar tu reclamo. </p>
+
+                <p>Por favor, completá el formulario con los motivos de tu reclamo: </p>
+
+
+                <form action="<?php the_permalink(); ?>" id="contactForm" method="post" class="contact-form">
+
+                    <div class="grunion-field-wrap grunion-field-text-wrap">
+
+                        <label for="commentsText">Motivo del reclamo <span>(obligatorio)</span>: </label>
+
+                        <textarea name="comments" class="input-text " id="commentsText"
+                            placeholder="¿Nos compartirías los detalles del inconveniente?" rows="2" cols="5" required
+                            aria-required="true"><?php 
 										
-								</p>
-						
-						</form>
-						
-						<?php
+							/*
+							if(isset($_POST['comments'])) { 
+							
+								if(function_exists('stripslashes')) 
+								{ 
+									echo stripslashes($_POST['comments']); 
+								
+								} else { 
+								
+									echo $_POST['comments']; 
+									
+								} 
+								
+							} 
+							*/
+							
+					?></textarea>
+
+
+                    </div>
+
+                    <p class="contact-submit">
+
+                        <button type="submit" class="pushbutton-wide"> 👉 Enviar </button>
+
+                        <input type="hidden" id="submitted" name="submitted" value="true" />
+
+                        <input type="hidden" id="order_id" name="order_id" value="<?php echo $order_id ; ?>">
+
+                    </p>
+
+                </form>
+
+                <?php
 						
 						} 
 						
@@ -303,11 +302,11 @@ do_action( 'flatsome_before_page' ); ?>
 						
 				}
 			?>
-				
-				
-			</div><!-- .col-inner -->
-		</div><!-- .large-12 -->
-	</div><!-- .row -->
+
+
+            </div><!-- .col-inner -->
+        </div><!-- .large-12 -->
+    </div><!-- .row -->
 </div>
 
 <?php
@@ -317,6 +316,3 @@ get_footer();
 //}
 
 ?>
-
-
-	
