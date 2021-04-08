@@ -5,7 +5,8 @@ Description:
 Author: Claudio Marcelo Galarza
 Author URI: https://linkedin.com/in/marcelogalarza/
 Template: flatsome
-Version: 1.2
+Version: 1.3
+Repo: https://github.com/MarceGal/BalanceadosYa
 
 Azul: #2BC1D3 rgba(43,193,211,1)
 Amarillo: #F7D100 rgba(247,209,0,1)
@@ -419,6 +420,20 @@ button.place_order,
 .woocommerce-terms-and-conditions-checkbox-text a {
     color: #00B894;
     text-decoration: underline;
+}
+
+#ayuda-checkout-shipping {
+    background: #FFE781;
+    padding: 0.5em 1em;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-align: left;
+    /*
+    background: #2BC1D3;
+    background-position: 7% 50%;
+    background-image: url(images/question.svg);
+    background-repeat: no-repeat;
+    */
 }
 
 
@@ -1046,6 +1061,7 @@ label.shipping__list_label {
     padding: 0;
     opacity: 1;
     text-align: right;
+    COLOR: #00B894;
 }
 
 .widget_shopping_cart .button {
@@ -1704,7 +1720,7 @@ select2-search__field {
 @media (min-width: 0px) and (max-width: 990px) {
     th,
     td {
-        font-size: 1em !important;
+        /*font-size: 1em !important;*/
     }
     .medium-1 .res-text,
     .medium-2 .res-text,
@@ -1836,7 +1852,7 @@ select2-search__field {
     }
     span.amount {
         color: #2BC1D3;
-        font-size: 1.2em !important;
+        /*font-size: 1.2em !important;*/
     }
     table.variations select {
         font-size: 1em;
@@ -1856,7 +1872,7 @@ select2-search__field {
     }
     .shop_table ul li,
     .checkout ul li em {
-        font-size: 0.9em;
+        /*font-size: 0.9em;*/
     }
     .woocommerce-order-details h2 {
         margin-bottom: 1.5em;

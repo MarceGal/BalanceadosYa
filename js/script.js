@@ -191,6 +191,16 @@ function init_checkout() {
 
 }
 
+
+function mostrar_leyenda_puntos_de_entrega() {
+
+    var tmp = '<p id="ayuda-checkout-shipping">👆 <b>Recuerda</b>: Si no podés esperar el pedido en tu casa, podés elegir un punto de entrega y retirar tu compra cuando puedas.</p>';
+    //jQuery(tmp).insertBefore( jQuery( "#order_review #payment" ) );
+    jQuery( "#shipping_method").append( tmp );
+    //console.log(tmp);
+
+}
+
 jQuery(document).ready(function() {
 
     init_checkout();

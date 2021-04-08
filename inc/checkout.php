@@ -476,15 +476,15 @@ function refresh_payment_methods(){
 	
     ?>
 
-    <script type="text/javascript">
-        (function($){
-            $( 'form.checkout' ).on( 'change', 'input[name^="payment_method"]', function() {
-                $('body').trigger('update_checkout');
-            });
-        })(jQuery);
-    </script>
+<script type="text/javascript">
+(function($) {
+    $('form.checkout').on('change', 'input[name^="payment_method"]', function() {
+        $('body').trigger('update_checkout');
+    });
+})(jQuery);
+</script>
 
-    <?php
+<?php
 
 }
 
@@ -557,121 +557,79 @@ function validación_personalizada( $fields, $errors ){
  * FUNCIÓN EN DESUSO
  */
 
-function mostrar_detalles_de_shipping() {
-
-    if ( did_action( 'woocommerce_cart_totals_after_shipping' ) >= 2 ||
-        did_action( 'woocommerce_review_order_after_shipping' ) >= 2 ) {
-
-		return false;
-		
-	}	
-
-	// Chosen Shipping Method
-	
-	$chosen_shipping_method_id = WC()->session->get( 'chosen_shipping_methods' )[0];
-	
-	$chosen_shipping_method    = explode(':', $chosen_shipping_method_id)[0];
-
-	// Cart subtotal
-	
-	$cart_subtotal             = WC()->cart->subtotal; // No need to remove the fee
-	
-	//Customer
-
-	$session_customer = WC()->session->get('customer'); 
-
-	$customer_postcode  = $session_customer['postcode'];
+function mostrar_detalles_de_shipping() 
+{
 	
 	$temp = ''; 
+
+	$cart_subtotal             = WC()->cart->subtotal; // No need to remove the fee	
+	$shipping_methods = array();
+	$chosen_shipping_method_id = WC()->session->get( 'chosen_shipping_methods' )[0];
+
+	foreach ( WC()->cart->get_shipping_packages() as $package_id => $package ) {
+		// Check if a shipping for the current package exist
+		if ( WC()->session->__isset( 'shipping_for_package_'.$package_id ) ) {
+			// Loop through shipping rates for the current package
+			
+			foreach ( WC()->session->get( 'shipping_for_package_'.$package_id )['rates'] as $shipping_method  ) {
+
+				/*
+				$rate_id     = $shipping_method->get_id(); // same thing that $shipping_rate_id variable (combination of the shipping method and instance ID)
+				$method_id   = $shipping_method->get_method_id(); // The shipping method slug
+				$instance_id = $shipping_method->get_instance_id(); // The instance ID
+				$label_name  = $shipping_method->get_label(); // The label name of the method
+				$cost        = $shipping_method->get_cost(); // The cost without tax
+				$tax_cost    = $shipping_method->get_shipping_tax(); // The tax cost
+				$taxes       = $shipping_method->get_taxes(); // The taxes details (array)
+
+				print($shipping_id->get_id().'<br>');
+				
+				*/
+
+				array_push(	$shipping_methods, $shipping_method);
+
+			}
+			
+		}
+	}
+
+	//print_r(count($shipping_methods));
 	
+	if ( empty( $chosen_shipping_method_id) ){
+
+		return true;
+
+	}	
+	
+	$chosen_shipping_method    = explode(':', $chosen_shipping_method_id)[0];
+		
 	$temp .= '{cart_subtotal: '.$cart_subtotal.'}</br>'; 
 	$temp .= '{chosen_shipping_method: '.$chosen_shipping_method.'}</br>'; 
+
+	// Si el metodo es "Envio gratuito" y tengo más de un metodo alternativo, muestro la leyenda.
+
+	if ($chosen_shipping_method === "free_shipping" && count($shipping_methods)>1 ) {
 	
-	//if ( isset( $customer_postcode ) &&  !empty( $customer_postcode) ) return false;
-	
-	$temp .= '{customer_postcode: '.$customer_postcode.'}</br>'; 
-
-	if($customer_postcode == VILLAGUAY_POSTCODE|| $customer_postcode== LARROQUE_POSTCODE){
-
-		// Get Free Shipping Methods for all other ZONES & populate array $min_amounts
-
-		$delivery_zones = WC_Shipping_Zones::get_zones();
+		//echo '<tr class="shipping info"><td data-title="Delivery info" colspan="2">'.$temp.'</td></tr>';
 		
-		if ( !empty( $delivery_zones) ){
-			
-			$temp .= '{$delivery_zones->id : '.var_dump($delivery_zones).'}</br>'; 
-
-			foreach ( $delivery_zones as $key => $delivery_zone ) {
-				
-				foreach ( $delivery_zone['shipping_methods'] as $key => $value ) {
-					
-					//Ids: flat_rate / local_pickup / free_shipping /  
-
-					if ( $value->id === "free_shipping" ) {
-
-						if ( $value->min_amount > 0 ) {
-
-							$min_amounts[] = $value->min_amount;
-							
-							$temp .= '{min_amounts: '.$value->min_amount.'}</br>'; 				
-
-						}
-
-					}
-					
+		echo "<script type='text/javascript'> ( 
+			function($) { 
+				try {
+					mostrar_leyenda_puntos_de_entrega();
+				} catch (error) {
+					//console.log(error); 
 				}
-
-			
-			}	
-
-		}
-
-			
-		echo '<tr class="shipping info"><td data-title="Delivery info" colspan="2">'.$temp.'</td></tr>';
-
-	}
-
-	/*
-
-	// Settings
-	
-    $cart_minimum1             = 4.5;
-    $cart_minimum2             = 15;
-
-	// HERE define the cart mininimum (When delivery is chosen)
-	
-    if ( $cart_subtotal < $cart_minimum2 && $chosen_shipping_method != 'flat_rate' ) {
-
-		$cart_minimum = $cart_minimum1;
-		
-    } elseif ( $cart_subtotal < $cart_minimum2 && $chosen_shipping_method == 'flat_rate' ) {
-
-		$cart_minimum = $cart_minimum2;
-		
-    }
-
-	// Display a message
-	
-    if( isset($cart_minimum) ){
-
-        // The message
-        $message =  sprintf( '%s %s for Delivery' ,
-            is_cart() ? 'Minimum' : 'Min',
-            strip_tags( wc_price( $cart_minimum, array('decimals' => 2 ) ) )
-        );
-
-		// Display
-		
-		echo '</tr><tr class="shipping info"><th>&nbsp;</th><td data-title="Delivery info">'.$message.'</td>';
+			}
+		)(jQuery); 
+		</script>";
 		
 	}
 
-	*/
-	
+	return true;
+
 }
 
-//add_action( 'woocommerce_cart_totals_after_shipping', 'mostrar_detalles_de_shipping', 20 );
-//add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_shipping', 20 );
+add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_shipping', 20 );
 
 
 /**
@@ -732,6 +690,12 @@ function debug_to_console($data) {
 /*
 
 LECTURA RECOMENDADA
+
+https://www.tychesoftwares.com/woocommerce-checkout-page-hooks-visual-guide-with-code-snippets/
+
+https://www.wpdesk.net/blog/woocommerce-cart-hooks/
+
+https://www.tychesoftwares.com/woocommerce-cart-page-hooks-visual-guide-with-code-examples/
 
 https://docs.woocommerce.com/document/tutorial-customising-checkout-fields-using-actions-and-filters
 
