@@ -1,7 +1,8 @@
 <?php
 	
 /**
- * ADAPTAMOS EL FORMULARIO DE FACTURACIÓN 
+ * ADAPTAMOS EL FORMULARIO 
+ * DE FACTURACIÓN 
  */
 
 function antes_datos_facturacion( $checkout ) {
@@ -623,7 +624,6 @@ function mostrar_detalles_de_shipping()
 }
 
 add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_shipping', 20 );
-
 
 /**
  * Esconder metodos de envios que no sean gratuitos cuando ya hay metodos gratuitos disponibles
