@@ -615,9 +615,7 @@ function mostrar_detalles_de_shipping()
 
 		</script>";
 		
-	}
-
-	
+	}	
 
 	return true;
 
