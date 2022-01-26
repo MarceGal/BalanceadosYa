@@ -475,6 +475,32 @@ function mostrar_detalles($objeto = null)
 
 // add_filter( 'woocommerce_review_order_after_payment', 'mostrar_detalles', 100 );
 
+<<<<<<< HEAD
+=======
+/**
+ * FUNCIÓN EN DESUSO
+ */
+
+function refresh_payment_methods(){
+
+    // jQuery code
+	
+    ?>
+
+<script type="text/javascript">
+(function($) {
+    $('form.checkout').on('change', 'input[name^="payment_method"]', function() {
+        $('body').trigger('update_checkout');
+    });
+})(jQuery);
+</script>
+
+<?php
+
+}
+
+// add_action( 'woocommerce_review_order_before_payment', 'refresh_payment_methods' );
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 
 /**
  * FUNCIÓN EN DESUSO
@@ -550,7 +576,11 @@ function mostrar_detalles_de_shipping()
 	
 	$temp = ''; 
 
+<<<<<<< HEAD
 	$cart_subtotal	= WC()->cart->subtotal; // No need to remove the fee	
+=======
+	$cart_subtotal             = WC()->cart->subtotal; // No need to remove the fee	
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 	$shipping_methods = array();
 	$chosen_shipping_method_id = WC()->session->get( 'chosen_shipping_methods' )[0];
 
@@ -562,6 +592,7 @@ function mostrar_detalles_de_shipping()
 			foreach ( WC()->session->get( 'shipping_for_package_'.$package_id )['rates'] as $shipping_method  ) {
 
 				/*
+<<<<<<< HEAD
 
 				$rate_id     = $shipping_method->get_id(); // same thing that $shipping_rate_id variable (combination of the shipping method and instance ID)
 				$method_id   = $shipping_method->get_method_id(); // The shipping method slug
@@ -575,6 +606,20 @@ function mostrar_detalles_de_shipping()
 				
 				*/
 
+=======
+				$rate_id     = $shipping_method->get_id(); // same thing that $shipping_rate_id variable (combination of the shipping method and instance ID)
+				$method_id   = $shipping_method->get_method_id(); // The shipping method slug
+				$instance_id = $shipping_method->get_instance_id(); // The instance ID
+				$label_name  = $shipping_method->get_label(); // The label name of the method
+				$cost        = $shipping_method->get_cost(); // The cost without tax
+				$tax_cost    = $shipping_method->get_shipping_tax(); // The tax cost
+				$taxes       = $shipping_method->get_taxes(); // The taxes details (array)
+
+				print($shipping_id->get_id().'<br>');
+				
+				*/
+
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 				array_push(	$shipping_methods, $shipping_method);
 
 			}
@@ -582,7 +627,11 @@ function mostrar_detalles_de_shipping()
 		}
 	}
 
+<<<<<<< HEAD
 	// print_r(count($shipping_methods));
+=======
+	//print_r(count($shipping_methods));
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 	
 	if ( empty( $chosen_shipping_method_id) ){
 
@@ -601,6 +650,7 @@ function mostrar_detalles_de_shipping()
 	
 		//echo '<tr class="shipping info"><td data-title="Delivery info" colspan="2">'.$temp.'</td></tr>';
 		
+<<<<<<< HEAD
 		echo "<script type='text/javascript'> 
 		
 			(function($) { 
@@ -612,12 +662,26 @@ function mostrar_detalles_de_shipping()
 				}
 			)(jQuery); 
 
+=======
+		echo "<script type='text/javascript'> ( 
+			function($) { 
+				try {
+					mostrar_leyenda_puntos_de_entrega();
+				} catch (error) {
+					//console.log(error); 
+				}
+			}
+		)(jQuery); 
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 		</script>";
 		
 	}
 
+<<<<<<< HEAD
 	
 
+=======
+>>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967
 	return true;
 
 }
@@ -673,6 +737,12 @@ add_filter( 'woocommerce_package_rates', 'esconder_otros_metodos_cuando_hay_free
 LECTURA RECOMENDADA
 
 //https://www.skyverge.com/blog/how-to-add-a-custom-woocommerce-email/
+
+https://www.tychesoftwares.com/woocommerce-checkout-page-hooks-visual-guide-with-code-snippets/
+
+https://www.wpdesk.net/blog/woocommerce-cart-hooks/
+
+https://www.tychesoftwares.com/woocommerce-cart-page-hooks-visual-guide-with-code-examples/
 
 https://www.tychesoftwares.com/woocommerce-checkout-page-hooks-visual-guide-with-code-snippets/
 
