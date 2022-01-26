@@ -45,7 +45,7 @@ function turno_change_handler() {
     if (!current_ciudad) return false;
 
     var current_turno = jQuery("#shipping_turno").val();
-
+    
     jQuery.each(current_ciudad.turnos, function(key, turno) {
 
         if (current_turno == turno.label) {
@@ -58,6 +58,69 @@ function turno_change_handler() {
 
     });
 
+    //////
+    
+    
+    if(current_turno){
+
+        jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();    
+
+        // "now" es declarada en el server. js.php        
+        // Console.log( 'La hora local actual en el server es ' + now );
+        let hour = now.getHours();
+        let minutes = now.getMinutes();
+        let deliveryforToday = false;
+        let turno = current_turno.toLowerCase();
+        let when = 'mañana';
+        let msg = '';
+        
+        if(hour < 10){
+            
+            deliveryforToday  = true;
+            when =  'hoy' ;
+
+        } else {
+
+            if( turno=="tarde" ){
+
+                if(current_ciudad.cp == "2820" || current_ciudad.cp == "2852"){
+                    
+                    var time1430 = new Date(now);
+                    // "time1430" es declarada en el server. js.php
+                    time1430.setHours(14); 
+                    time1430.setMinutes(30);
+                    console.log( 'La hora time1430 en el server es ' + time1430 );
+                    ///console.log(now, time1430, now.getTime() <= time1430.getTime());
+                    
+                    if( now.getTime() <= time1430.getTime() ){
+
+                        when =  'hoy' ;
+                    
+                    }                
+
+                }
+
+            }
+            
+        }
+
+        //console.log(current_ciudad);
+        //msg += '<p>Hora: '+hour+':'+minutes+'</p>';    
+        //msg += '<p>'+'Ciudad : '+current_ciudad.nombre+' ('+current_ciudad.cp+')<p>';
+        //msg += '<p>'+'Turno : '+turno+'<p>';
+        msg += '<label>¡ 📦 Tu pedido estará llegando <strong>';
+        msg += when.toUpperCase();
+        msg += '</strong> por la '+turno;
+        msg += ', de ' +jQuery("#shipping_franja-horaria-desde").val() + ' a ' + jQuery("#shipping_franja-horaria-hasta").val();
+        msg += ' ! </label>';
+        
+        jQuery("#shipping_turno_field").append(jQuery('<div class="ayuda-checkout-shipping">'+msg+'</div>'));
+
+    }
+
+    //////
+    
+
 }
 
 function city_change_handler() {
@@ -69,12 +132,16 @@ function city_change_handler() {
     }
 
     jQuery("#billing_postcode").val(ciudad_Id);
-
+    
     current_ciudad = getCiudadById(ciudad_Id);
+    
+    jQuery("#billing_state").val("E"); // Forzamos Entre Ríos como unica provincia.
 
     jQuery("#shipping_turno").empty();
 
     jQuery("#shipping_turno").append(jQuery('<option value="">Seleccioná un turno para tu entrega</option>'));
+    
+    jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();    
 
     jQuery.each(current_ciudad.turnos, function(key, turno) {
 
@@ -82,6 +149,7 @@ function city_change_handler() {
 
     });
 
+    
     if (current_ciudad.turnos.length > 0) {
         mostrar_turnos();
     } else {
@@ -90,7 +158,9 @@ function city_change_handler() {
 
     turno_change_handler();
 
-    jQuery(document.body).trigger("update_checkout");
+    jQuery(document.body).trigger("update_checkout");    
+    
+    //console.log('Recalculando...');
 
 }
 
@@ -114,6 +184,7 @@ function setRangos(rango) {
 
     jQuery("#shipping_franja-horaria-desde").empty();
     jQuery("#shipping_franja-horaria-hasta").empty();
+    
 
     if (!rango) {
 
@@ -130,10 +201,9 @@ function setRangos(rango) {
 
     jQuery("#shipping_franja-horaria-hasta").val(rango[rango.length - 1]);
 
-    mostrar_rangos();
+    mostrar_rangos();    
 
 }
-
 
 function init_checkout() {
 
@@ -159,7 +229,7 @@ function init_checkout() {
         cp: "3260",
         nombre: "Concepción del Uruguay",
         turnos: [
-            { label: 'Mañana', rango: ['11:00', '15:00'] }
+            { label: 'Tarde', rango: ['15:30', '18:00'] }
         ]
     };
 
@@ -194,7 +264,7 @@ function init_checkout() {
 
 function mostrar_leyenda_puntos_de_entrega() {
 
-    var tmp = '<p id="ayuda-checkout-shipping">👆 <b>Recuerda</b>: Si no podés esperar el pedido en tu casa, podés elegir un punto de entrega y retirar tu compra cuando puedas.</p>';
+    var tmp = '<p class="ayuda-checkout-shipping">👆 <b>Recuerda</b>: Si no podés esperar el pedido en tu casa, podés elegir un punto de entrega y retirar tu compra cuando puedas.</p>';
     //jQuery(tmp).insertBefore( jQuery( "#order_review #payment" ) );
     jQuery( "#shipping_method").append( tmp );
     //console.log(tmp);

@@ -36,6 +36,7 @@ function sobrescribir_formulario_facturacion( $fields )
 	//Pais
 		
 	//unset($fields['billing_country']);
+	$fields['billing_country']['class'] = array( 'form-row-wide' );	
 		
 	//CUIT
 	
@@ -47,22 +48,18 @@ function sobrescribir_formulario_facturacion( $fields )
 	
 	$fields['billing_address_1']['label'] = 'Dirección';
 	$fields['billing_address_1']['placeholder'] = 'Calle y número';	
+	$fields['billing_address_1']['class'] = array( 'form-row-wide' );	
 	//
 	 
 	$fields['billing_address_2']['label'] = 'Piso, Depto.';
 	$fields['billing_address_2']['placeholder'] = '';
-	
-	
-	$fields['billing_address_1']['class'] = array( 'form-row-wide' );	
 	//$fields['billing_address_2']['class'] = array( 'form-row-wide' );
 	
 	
 	//Ciudad
-		
+	
 	$fields['billing_city']['label'] = 'Ciudad';
-	$fields['billing_city']['default'] = 'Gualeguaychú';
-	
-	
+	$fields['billing_city']['default'] = 'Gualeguaychú';	
 	$fields['billing_city'] =  array(
 		'label'     => 'Ciudad',
 		'placeholder'   => 'Ciudad',
@@ -80,12 +77,25 @@ function sobrescribir_formulario_facturacion( $fields )
 		),
 		'default' => '2820'
 	);	
-	
-	//Provincia
+
+	//Provincia // Entre Ríos
 		
+	$fields['billing_state'] =  array(
+		'label'     => 'Provincia',
+		'placeholder'   => 'Provincia',
+		'required'  => true,
+		'clear'     => false,
+		'type' => 'select',
+		'class' => array( 'form-row-wide' ),
+		'options' => array(
+			'' => 'Seleccioná tu provincia',
+			'E' => 'Entre Ríos'
+		),
+		'default' => 'E'
+	);	
 	$fields['billing_state']['label'] = 'Provincia';
 	$fields['billing_state']['default'] = 'E';
-	
+
 	//Código Postal
 	
 	$fields['billing_postcode']['default'] = '2820';
@@ -101,7 +111,40 @@ function sobrescribir_formulario_facturacion( $fields )
 	
 }
 
-add_filter( 'woocommerce_billing_fields', 'sobrescribir_formulario_facturacion',10);
+add_filter( 'woocommerce_billing_fields', 'sobrescribir_formulario_facturacion', 10, 1);
+
+
+/**
+ * Change the default state and country on the checkout page
+ */
+
+/*
+function change_default_checkout_country() {
+	return 'AR'; // state code
+}
+  
+add_filter( 'default_checkout_billing_state', 'change_default_checkout_state', 10, 1 );
+
+*/
+
+function custom_woocommerce_states( $states ) 
+{
+  $states['AR'] = array(
+    'E' => 'Entre Ríos'
+  );
+
+  return $states;
+
+}
+
+add_filter( 'woocommerce_states', 'custom_woocommerce_states' ); 
+
+function change_default_checkout_state() 
+{
+	return 'E'; // Entre Ríos
+}
+
+add_filter( 'change_default_checkout_state', 'change_default_checkout_state' );
 
 /**
  * FORMULARIO DE FACTURACIÓN 
@@ -118,10 +161,11 @@ function custom_override_default_address_fields( $fields )
 	$fields['address_2']['label'] = 'Piso, Depto.';
 	$fields['address_2']['placeholder'] = '';	
 
+
     return $fields;
 }
 
-add_filter( 'woocommerce_default_address_fields' , 'custom_override_default_address_fields',10 );
+add_filter( 'woocommerce_default_address_fields' , 'custom_override_default_address_fields', 10, 1 );
 
 /**
  * FORMULARIO DE FACTURACIÓN 
@@ -215,10 +259,9 @@ add_filter( 'woocommerce_checkout_fields' , 'sobrescribir_formulario_locacion');
  * Chequeamos si podemos enviar a la zona.
  */
 
-function my_custom_checkout_field_process() {
-    
-	
-	
+function my_custom_checkout_field_process() 
+{
+ 	
 	$_POST['billing_state'] = sanitize_text_field($_POST['billing_state']);
 	$_POST['billing_city'] = sanitize_text_field($_POST['billing_city']);
 	
@@ -226,7 +269,7 @@ function my_custom_checkout_field_process() {
 	
 	if ( isset( $ppc ) && !empty( $ppc) )	{
 
-		if( ($ppc == "2820") || ($ppc == "3260") || ($ppc == "2852")) {
+		if( ($ppc == "2820") || ($ppc == C_DEL_U_POSTCODE ) || ($ppc == "2852")) {
 
 			if ( isset( $_POST['shipping_turno'] ) && empty( $_POST['shipping_turno']  )) {			
 
@@ -236,16 +279,18 @@ function my_custom_checkout_field_process() {
 			}
 		}
 	}
-
-	if ( isset( $_POST['billing_state'] ) &&
-		! empty( $_POST['billing_state']) &&
-		$_POST['billing_state'] !='E') {
-		$ntc .= "😿 Lamentablemente no tenemos cobertura en tu provincia. ";
+	
+	
+	if ( isset( $_POST['billing_state'] ) && !empty( $_POST['billing_state']) && $_POST['billing_state'] !='E') {
+		
+		/*$ntc .= "😿 Lamentablemente no tenemos cobertura en tu provincia. ";
 		$ntc .= " 😺 Recuerdá que solo entregamos en la ciudad de Gualeguaychú.";
-		wc_add_notice( $ntc, 'error' );
+		wc_add_notice( $ntc, 'error' );*/
+
+		mailMarce('Estan entrando a la condición que no tienen provincia');
+		
 	
 	}
-	
 	/*
 	if ( isset( $_POST['billing_city'] ) &&
 		! empty( $_POST['billing_city']) &&
@@ -323,7 +368,7 @@ add_action( 'woocommerce_checkout_update_order_meta', 'actualizar_info_usuario' 
  * 
  */
  
-function despues_de_orden_completada($order_id) 
+function orden_estado_completado($order_id) 
 {
 	
 	$order = new WC_Order( $order_id );
@@ -378,8 +423,11 @@ function despues_de_orden_completada($order_id)
 				
 				} 
 				
-				break;
-	
+			break;
+			
+			// Opción no disponible
+			
+			/*
 			case $customer_orders > 10;
 
 				// Subimos el nivel de cliente.	
@@ -395,6 +443,7 @@ function despues_de_orden_completada($order_id)
 				} 
 
 				break;
+			*/
 				
 			default:
 				break;
@@ -408,50 +457,10 @@ function despues_de_orden_completada($order_id)
 	
 }
 
-add_action( 'woocommerce_order_status_completed', 'despues_de_orden_completada' );
+add_action( 'woocommerce_order_status_completed', 'orden_estado_completado' );
  
 /**
- * MANEJAR METODOS DE PAGO SEGUN REGIÓN DE ENVIO
- * VILLAGUAY NO INCORPORA COD
- *
- * CODIGOS DE METODOS DE PAGO
- * 
- * cod  -> Cash on Delivery -> Pago contrarembolso  
- * bacs -> Direct Bank Transfer -> Pago transferencia bancaria
- * https://docs.woocommerce.com/documentation/plugins/woocommerce/getting-started/sell-products/core-payment-options/ 
- * 
- */
-
-function conditional_hiding_payment_gateway($available_gateways) {
-
-  	
-	$_customer = WC()->session->get('customer'); 
-	
-	$_postcode  = $_customer['postcode'];
-
-	$_chosen_payment_method = WC()->session->get('chosen_payment_method');
-
-	// mostrar_detalles($_chosen_payment_method);
-
-	// VILLAGUAY
-	
-	if( $_postcode == VILLAGUAY_POSTCODE  || $_postcode == LARROQUE_POSTCODE){
-
-		unset($available_gateways['cod']);
-
-	}else{
-		
-		unset($available_gateways['bacs']);
-		
-	}
-
-    return $available_gateways;
-
-}
-
-add_filter('woocommerce_available_payment_gateways', 'conditional_hiding_payment_gateway', 1, 1);
-
-/**
+ * FUNCIÓN EN DESUSO
  * INSPECCIONAR E IMPRIMIR.
  */
 
@@ -466,29 +475,6 @@ function mostrar_detalles($objeto = null)
 
 // add_filter( 'woocommerce_review_order_after_payment', 'mostrar_detalles', 100 );
 
-/**
- * FUNCIÓN EN DESUSO
- */
-
-function refresh_payment_methods(){
-
-    // jQuery code
-	
-    ?>
-
-<script type="text/javascript">
-(function($) {
-    $('form.checkout').on('change', 'input[name^="payment_method"]', function() {
-        $('body').trigger('update_checkout');
-    });
-})(jQuery);
-</script>
-
-<?php
-
-}
-
-// add_action( 'woocommerce_review_order_before_payment', 'refresh_payment_methods' );
 
 /**
  * FUNCIÓN EN DESUSO
@@ -554,7 +540,9 @@ function validación_personalizada( $fields, $errors ){
 
 
 /**
- * FUNCIÓN EN DESUSO
+ * Si existe "Envio gratuito" en la zona y tengo puntos de conveniencia, 
+ * voy a alentar que el envio al punto de conveniencia mostrando una leyenda.
+ * Evaluo los metodo de envio y llamo a una función js mostrar_leyenda_puntos_de_entrega
  */
 
 function mostrar_detalles_de_shipping() 
@@ -562,7 +550,7 @@ function mostrar_detalles_de_shipping()
 	
 	$temp = ''; 
 
-	$cart_subtotal             = WC()->cart->subtotal; // No need to remove the fee	
+	$cart_subtotal	= WC()->cart->subtotal; // No need to remove the fee	
 	$shipping_methods = array();
 	$chosen_shipping_method_id = WC()->session->get( 'chosen_shipping_methods' )[0];
 
@@ -574,6 +562,7 @@ function mostrar_detalles_de_shipping()
 			foreach ( WC()->session->get( 'shipping_for_package_'.$package_id )['rates'] as $shipping_method  ) {
 
 				/*
+
 				$rate_id     = $shipping_method->get_id(); // same thing that $shipping_rate_id variable (combination of the shipping method and instance ID)
 				$method_id   = $shipping_method->get_method_id(); // The shipping method slug
 				$instance_id = $shipping_method->get_instance_id(); // The instance ID
@@ -593,7 +582,7 @@ function mostrar_detalles_de_shipping()
 		}
 	}
 
-	//print_r(count($shipping_methods));
+	// print_r(count($shipping_methods));
 	
 	if ( empty( $chosen_shipping_method_id) ){
 
@@ -612,18 +601,22 @@ function mostrar_detalles_de_shipping()
 	
 		//echo '<tr class="shipping info"><td data-title="Delivery info" colspan="2">'.$temp.'</td></tr>';
 		
-		echo "<script type='text/javascript'> ( 
-			function($) { 
-				try {
-					mostrar_leyenda_puntos_de_entrega();
-				} catch (error) {
-					//console.log(error); 
+		echo "<script type='text/javascript'> 
+		
+			(function($) { 
+					try {
+						mostrar_leyenda_puntos_de_entrega();
+					} catch (error) {
+						//console.log(error); 
+					}
 				}
-			}
-		)(jQuery); 
+			)(jQuery); 
+
 		</script>";
 		
 	}
+
+	
 
 	return true;
 
@@ -633,8 +626,8 @@ add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_ship
 
 
 /**
- * FUNCIÓN EN DESUSO
- * Hide shipping rates when free shipping is available.
+ * Esconder metodos de envios que no sean gratuitos cuando ya hay metodos gratuitos disponibles
+ * Ej: Si un usuario hace una compra mayor a un monto determindo ($2500) se les habilita metodos gratuitos, en este caso ya no mostraremos los metodos pagos
  * Updated to support WooCommerce 2.6 Shipping Zones.
  * https://docs.woocommerce.com/document/hide-other-shipping-methods-when-free-shipping-is-available/
  * @param array $rates Array of rates found for the package.
@@ -653,15 +646,14 @@ function esconder_otros_metodos_cuando_hay_free_shipping( $rates )
 		return $rates;
 	}
 	
-	
-	if($customer_postcode == VILLAGUAY_POSTCODE || $customer_postcode== LARROQUE_POSTCODE){
+	if($customer_postcode == VILLAGUAY_POSTCODE || $customer_postcode== LARROQUE_POSTCODE || $customer_postcode== C_DEL_U_POSTCODE){
 
 		$free = array();
 
 		foreach ( $rates as $rate_id => $rate ) {
 			if ( 'free_shipping' === $rate->method_id ) {
 				$free[ $rate_id ] = $rate;
-				break;
+				//break;
 			}
 		}
 
@@ -671,25 +663,16 @@ function esconder_otros_metodos_cuando_hay_free_shipping( $rates )
 	}
 	
 	return $rates;
-	
+		
 }
 
 add_filter( 'woocommerce_package_rates', 'esconder_otros_metodos_cuando_hay_free_shipping', 100 );
 
-
-//https://www.skyverge.com/blog/how-to-add-a-custom-woocommerce-email/
-
-function debug_to_console($data) {
-    $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
-
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-}
-
 /*
 
 LECTURA RECOMENDADA
+
+//https://www.skyverge.com/blog/how-to-add-a-custom-woocommerce-email/
 
 https://www.tychesoftwares.com/woocommerce-checkout-page-hooks-visual-guide-with-code-snippets/
 

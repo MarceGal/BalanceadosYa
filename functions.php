@@ -2,22 +2,13 @@
 
 define("VILLAGUAY_POSTCODE", "3240");
 define("LARROQUE_POSTCODE", "2854");
-
-//*****************************************************
-//**ADD CSS ADICIONAL *********************************
-//*****************************************************
-/*
-function BYA_enqueue_styles() {
-	
-    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css', array('font-awesome'));
-
-    if ( is_rtl() ) 
-   		wp_enqueue_style(  'salient-rtl',  get_template_directory_uri(). '/rtl.css', array(), '1', 'screen' );
-}
-
-
-add_action('wp_enqueue_scripts', 'BYA_enqueue_styles');
-*/
+define("C_DEL_U_POSTCODE", "3260");
+// Descuentos  para transferencias bancarias 
+// Utilizado en checkout-discounts.php 
+define("BACS_DISCOUNT", 5); // % Descuento en transferencia bancaria
+define("BACS_DISCOUNT_LEYEND", '¡ 🎉 Tenemos un descuento del '.BACS_DISCOUNT.'% para transferencias bancarias !'); 
+define("COD_DISCOUNT", 5); // % Descuento en pago en efectivo
+define("COD_DISCOUNT_LEYEND", '¡ 🎉 Tenemos un descuento del '.COD_DISCOUNT.'% para pagos en efectivo !'); 
 
 
 //*****************************************************
@@ -74,8 +65,6 @@ function BYA_add_favicon(){
     content="<?php echo get_stylesheet_directory_uri();?>/favicons/ms-icon-144x144.png">
 <meta name="theme-color" content="#FFE781">
 
-
-
 <?php }
 
 add_action('wp_head','BYA_add_favicon');
@@ -83,48 +72,6 @@ add_action('wp_head','BYA_add_favicon');
 include get_stylesheet_directory() . '/inc/google-analytics.php';
 
 include get_stylesheet_directory() . '/inc/push-notifications.php';
-
-//*****************************************************
-//**FACEBOOK PIXEL ************************************
-//*****************************************************
-
-
-function BYA_add_facebookPixelScript(){
-
-?>
-
-<!-- Facebook Pixel Code -->
-<script>
-! function(f, b, e, v, n, t, s) {
-    if (f.fbq) return;
-    n = f.fbq = function() {
-        n.callMethod ?
-            n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-    };
-    if (!f._fbq) f._fbq = n;
-    n.push = n;
-    n.loaded = !0;
-    n.version = '2.0';
-    n.queue = [];
-    t = b.createElement(e);
-    t.async = !0;
-    t.src = v;
-    s = b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t, s)
-}(window, document, 'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '242080206560811');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=242080206560811&ev=PageView&noscript=1" /></noscript>
-<!-- End Facebook Pixel Code -->
-
-<?php
-
-}
-
-//add_action('wp_head','BYA_add_facebookPixelScript');
 
 //*****************************************************
 //**SVG UPLOAD SUPPORT ********************************
@@ -137,43 +84,6 @@ function cc_mime_types($mimes) {
  return $mimes;
 }
 add_filter('upload_mimes', 'cc_mime_types');
- 
-//*****************************************************
-//**SEO - NO INDEX PAGES *********************
-//*****************************************************
-
-/*
-
-OMITIMOS LA INDEXACIÓN DE PAGINAS QUE NO DESEAMOS SEAN INDEXADAS POR BOTS
-
-Política de privacidad -> 3 -> https://balanceadosya.com.ar/?p=3
-Terminos -> 3344 -> https://balanceadosya.com.ar/?p=3344
-Reclamos -> 4417 -> https://balanceadosya.com.ar/?p=4417
-Pago -> 627 -> https://balanceadosya.com.ar/?p=627
-Pago pendiente -> 7625 -> https://balanceadosya.com.ar/?p=7625
-compra exitosa -> 7649-> https://balanceadosya.com.ar/?p=7649
-Pago rechazado -> 7642 -> https://balanceadosya.com.ar/?p=7642
-
-*/
-
-define("NO_INDEX_POSTS_IDS",  [3, 3344, 4417, 627, 7625, 7649, 7642] );
-
-add_action( 'wp_head', function() {
-
-    global $post;    
-
-    foreach(NO_INDEX_POSTS_IDS as  $post_id)
-    {
-       if ($post->ID == $post_id ) {
-            echo '<meta name="robots" content="noindex, nofollow">';
-            return true;
-       }
-    } 
-
-    return false;
-
- } );
-
  
 //*****************************************************
 //**USER AGENT DETECTION UTILITIES *********************
@@ -268,30 +178,22 @@ function getBrowser()
 } 
 
 //*****************************************************
-//**ADD JS *********************************************
+//*****************************************************
 //*****************************************************
 
-function BYA_scripts() 
+function isUserLoggedIn()
 {
-	/*	*/
-	//$ua = getBrowser();
-	//$yourbrowser= "Your browser: " . $ua['name'] . " " . $ua['version'] . " on " .$ua['platform'] . " reports: <br >" . $ua['userAgent'];
-	//print_r($yourbrowser);
-	
-	//wp_enqueue_style( 'bya-style', get_bloginfo('stylesheet_directory') .  '/css/checkout.css', array(), '1.1.0' , true );
-
-	 
-	wp_enqueue_script( 'bya-script', get_bloginfo('stylesheet_directory') .  '/js/script.js', array(), '1.1.0' , true );
-	
+	return is_user_logged_in();
 }
 
+function isCustumerUser()
+{
+	global $current_user;
+    if (!isset($current_user->roles) || empty( $current_user->roles)) return false;
+    $role = $current_user->roles[0];    
+    return in_array($role, array('customer'));
 
-add_action( 'wp_enqueue_scripts', 'BYA_scripts' );
-
-//*****************************************************
-//*****************************************************
-//*****************************************************
-
+}
 
 function clean_white_spaces($str){
 	$str = ltrim($str);
@@ -305,7 +207,7 @@ function mailMarce($message)
 	
 	//php mailer variables
 	$to = 'claudiomarcelogalarza@gmail.com';
-	$subject = "Notificación de prueba de BalanceadosYa!";
+	$subject = "Notificación desde BalanceadosYa!";
 	$headers = "From: BalanceadosYa! <no-contestar@balanceadosya.com>\r\n". "Reply-To:  no-contestar@balanceadosya.com\r\n";
 	
 	
@@ -313,17 +215,32 @@ function mailMarce($message)
 	
 }	
 
+function debug_to_console($data) 
+{
 
-//*****************************************************
-//*****************************************************
-//*****************************************************
+    $output = $data;
 
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+
+}
+
+
+include get_stylesheet_directory() . '/inc/css.php';
+include get_stylesheet_directory() . '/inc/js.php';
 //include get_stylesheet_directory() . '/inc/admin-sign-in.php';
+include get_stylesheet_directory() . '/inc/sign-in.php';
+include get_stylesheet_directory() . '/inc/seo.php';
 include get_stylesheet_directory() . '/inc/checkout.php';
+include get_stylesheet_directory() . '/inc/checkout-payments.php';
+include get_stylesheet_directory() . '/inc/checkout-discounts.php';
 include get_stylesheet_directory() . '/inc/my-account.php';
 include get_stylesheet_directory() . '/inc/user-profile.php';
 include get_stylesheet_directory() . '/inc/sign-up.php';
 include get_stylesheet_directory() . '/inc/roles.php';
 include get_stylesheet_directory() . '/inc/alta-mayoristas.php';
 include get_stylesheet_directory() . '/inc/admin-menu.php';
+
 ?>

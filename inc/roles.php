@@ -124,7 +124,10 @@ add_role( 'distributor', 'Distribuidor', $capabilities );
 add_role( 'client_level_1', 'Cliente Nivel 1', $capabilities );
 add_role( 'client_level_2', 'Cliente Nivel 2', $capabilities );
 
-// Ocultar barras administrativas
+//*****************************************************
+//**OCULTAR BARRAS ADMINISTRATIVAS ********************
+//*****************************************************
+
 
 function BYA_admin_bar ($show) 
 {	
@@ -171,6 +174,7 @@ function BYA_changeUIbyRole(){
 	</style>
 	
 	<?php
+	
 	/*
 	$a = BYA_is_admin;
 	$sm = BYA_is_shop_manager();
@@ -229,43 +233,4 @@ function BYA_changeUIbyRole(){
 	}
 }
 
-add_action('wp_head','BYA_changeUIbyRole');
-
-// Redirect user after login.
-
-function wc_custom_user_redirect( $redirect, $user ) {
-    
-	// Get the first of all the roles assigned to the user    
-	
-	$role = $user->roles[0];
-    $dashboard = admin_url();       
-
-    if (in_array($role, array('administrator'))) {
-		
-        $redirect = $dashboard;    
-		
-    } elseif (in_array($role, array('shop_manager'))) {
-		
-        $redirect = site_url('/wp-admin/admin.php?page=wc-admin');  
-        
-    } elseif (in_array($role, array('distributor', 'customer', 'subscriber'))) {
-		
-        $redirect = $_SERVER["HTTP_REFERER"];  
-        
-    } else {
-		
-        $redirect = $_SERVER["HTTP_REFERER"];  
-		
-    }
-	
-	
-	$redirect = $_SERVER["HTTP_REFERER"];
-
-    return $redirect;
-
-}
-
-add_filter( 'woocommerce_login_redirect', 'wc_custom_user_redirect', 10, 2 );
-
-
-    
+add_action('wp_head','BYA_changeUIbyRole');   

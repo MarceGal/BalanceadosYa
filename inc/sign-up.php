@@ -67,7 +67,6 @@ function formulario_registro_adaptado() {?>
 			<input type="date" class="input-date" name="user_mascota_birth_date" id="user_mascota_birth_date" value="<?php if ( ! empty( $_POST['user_mascota_birth_date'] ) ) esc_attr_e( $_POST['user_mascota_birth_date'] ); ?>" min="2000-01-01" max="<?php echo date("Y-m-d")?>"/>
       
 		</p>
-       
 	   
  <?php }
  
@@ -158,3 +157,44 @@ function wooc_save_extra_register_fields( $customer_id )
 add_action( 'woocommerce_register_form', 'formulario_registro_adaptado' );
 add_action( 'woocommerce_created_customer', 'wooc_save_extra_register_fields' );
 add_action( 'woocommerce_register_post', 'wooc_validate_extra_register_fields', 10, 3 );
+
+
+function formulario_login_adaptado() {
+
+	?>
+
+<script>
+
+	window.fbAsyncInit = function() {
+		FB.init({
+		appId      : '842968169733316',
+		cookie     : true,
+		xfbml      : true,
+		version    : '1.0'
+		});
+		
+		FB.AppEvents.logPageView();   
+		
+	};
+
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	</script>
+
+	<fb:login-button 
+	scope="public_profile,email"
+	onlogin="checkLoginState();">
+	</fb:login-button>
+
+	<p class="form-row form-row-first"></p>
+	
+	<?php
+	
+};      
+
+//add_action( 'woocommerce_login_form', 'formulario_login_adaptado', 10, 0 ); 

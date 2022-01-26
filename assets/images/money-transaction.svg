@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="464" height="464" viewBox="0 0 464 464">
+  <g id="money-transaction" transform="translate(-24 -24)">
+    <rect id="Rectángulo_1" data-name="Rectángulo 1" width="192" height="368" rx="16" transform="translate(280 24)" fill="#9aa3a8"/>
+    <path id="Trazado_1" data-name="Trazado 1" d="M296,352H456a16,16,0,0,1,16,16v24H280V368A16,16,0,0,1,296,352Z" transform="translate(752 744) rotate(180)" fill="#6a7073"/>
+    <circle id="Elipse_1" data-name="Elipse 1" cx="48" cy="48" r="48" transform="translate(328 136)" fill="#ffd33a"/>
+    <path id="Trazado_2" data-name="Trazado 2" d="M376,120a64,64,0,1,0,64,64,64,64,0,0,0-64-64Zm0,112a48,48,0,1,1,48-48,48,48,0,0,1-48,48Z" fill="#ffb632"/>
+    <path id="Trazado_3" data-name="Trazado 3" d="M392,192a15.973,15.973,0,0,1-8,13.839V208a8,8,0,0,1-16,0,8,8,0,0,1,0-16h8a15.99,15.99,0,0,1-8-29.84V160a8,8,0,0,1,16,0,8,8,0,0,1,0,16h-8A16.021,16.021,0,0,1,392,192Z" fill="#ffb632"/>
+    <rect id="Rectángulo_2" data-name="Rectángulo 2" width="192" height="368" rx="16" transform="translate(232 488) rotate(180)" fill="#9aa3a8"/>
+    <path id="Trazado_4" data-name="Trazado 4" d="M56,120H216a16,16,0,0,1,16,16v24H40V136a16,16,0,0,1,16-16Z" fill="#6a7073"/>
+    <circle id="Elipse_2" data-name="Elipse 2" cx="48" cy="48" r="48" transform="translate(88 280)" fill="#ffd33a"/>
+    <path id="Trazado_5" data-name="Trazado 5" d="M136,264a64,64,0,1,0,64,64,64,64,0,0,0-64-64Zm0,112a48,48,0,1,1,48-48A48,48,0,0,1,136,376Z" fill="#ffb632"/>
+    <path id="Trazado_6" data-name="Trazado 6" d="M152,336a15.973,15.973,0,0,1-8,13.839V352a8,8,0,0,1-16,0,8,8,0,0,1,0-16h8a15.99,15.99,0,0,1-8-29.84V304a8,8,0,0,1,16,0,8,8,0,0,1,0,16h-8A16.021,16.021,0,0,1,152,336Z" fill="#ffb632"/>
+    <path id="Trazado_7" data-name="Trazado 7" d="M96,456h80a16,16,0,0,1,16,16v16H80V472A16,16,0,0,1,96,456Z" fill="#6a7073"/>
+    <path id="Trazado_8" data-name="Trazado 8" d="M280,272V256H200V224h80V208l40,32Z" fill="#3dc285"/>
+    <path id="Trazado_9" data-name="Trazado 9" d="M232,272v16h80v32H232v16l-40-32Z" fill="#3dc285"/>
+    <path id="Trazado_10" data-name="Trazado 10" d="M336,24h80a16,16,0,0,1,16,16V56H320V40A16,16,0,0,1,336,24Z" transform="translate(752 80) rotate(180)" fill="#6a7073"/>
+    <path id="Trazado_11" data-name="Trazado 11" d="M472,448V392l16-96-56-72c-2.708-6.093-9.332-8-16-8-16,3-18.342,13.462-16,24l24,72a64,64,0,0,0-64,64v16H304v56Z" fill="#f0c6a4"/>
+    <path id="Trazado_12" data-name="Trazado 12" d="M296,424H480v64H296Z" fill="#2d85cc"/>
+    <path id="Trazado_13" data-name="Trazado 13" d="M40,64v56L24,216l56,72c2.708,6.093,9.332,8,16,8,16-3,18.342-13.462,16-24L88,200a64,64,0,0,0,64-64V120h56V64Z" fill="#f0c6a4"/>
+    <path id="Trazado_14" data-name="Trazado 14" d="M32,24H216V88H32Z" transform="translate(248 112) rotate(180)" fill="#eb423f"/>
+  </g>
+</svg>

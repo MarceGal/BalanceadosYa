@@ -91,4 +91,3 @@ function block_on_blank_login( $user )
 add_action('init', 'block_dashboard');
 add_action( 'wp_login_failed', 'block_on_login_failed' ); // hook failed login
 add_action( 'authenticate', 'block_on_blank_login'); //Shortcode para 
-

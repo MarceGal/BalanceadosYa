@@ -23,9 +23,9 @@ function jetpackcom_contact_confirmation()
 			</script>
 			";
 		
-	$conf .='<p>Buen�simo!. Hemos enviado tu solicitud.</p>';
+	$conf .='<p>¡Buenísimo!. Hemos enviado tu solicitud.</p>';
 	
-	$conf .="<p>Un momento por avor, te estamos redirigiendolo a nuestra pagina principal.</p>";
+	$conf .="<p>Un momento por favor, te estamos redirigiendolo a nuestra pagina principal.</p>";
 	
 	return $conf;
 	

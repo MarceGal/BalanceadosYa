@@ -8,6 +8,8 @@ https://stackoverflow.com/questions/38666414/how-to-disable-downloadable-product
 
 https://martin.click/woocommerce/como-personalizar-la-pagina-de-mi-cuenta-en-woocommerce/
 
+https://iconicwp.com/blog/the-ultimate-guide-to-adding-custom-woocommerce-user-account-fields/
+
 */
  
 /*BORRAR DESCARGABLES DEL PERFIL*/
