@@ -472,6 +472,7 @@ body {
   }
   
   .ayuda-checkout-shipping {
+    
     background: #FFE781;
     padding: 0.5em 1em;
     text-align: left;
@@ -479,6 +480,13 @@ body {
     border-radius: 3px;
 
     label{ margin-bottom: 0rem; }
+    
+  }
+
+  #boton_emergencia {
+    
+    font-size: 1.2rem;
+    margin-top: 1rem;
     
   }
   

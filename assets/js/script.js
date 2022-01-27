@@ -63,7 +63,8 @@ function turno_change_handler() {
     
     if(current_turno){
 
-        jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();    
+        jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();  
+        jQuery("#shipping_turno_field #boton_emergencia").remove();    
 
         // "now" es declarada en el server. js.php        
         // Console.log( 'La hora local actual en el server es ' + now );
@@ -73,7 +74,8 @@ function turno_change_handler() {
         let turno = current_turno.toLowerCase();
         let when = 'mañana';
         let msg = '';
-        
+        let botonEmergencia = '<div id="boton_emergencia"><p>¿Necesitás realizar un 🚁Pedido de emergencia hoy mismo? <a href="https://api.whatsapp.com/send/?phone=5493446549682&text&app_absent=0" target="_blank">¡Contactanos por Whatsapp!</a></p><div>';
+       
         if(hour < 10){
             
             deliveryforToday  = true;
@@ -114,7 +116,13 @@ function turno_change_handler() {
         msg += ', de ' +jQuery("#shipping_franja-horaria-desde").val() + ' a ' + jQuery("#shipping_franja-horaria-hasta").val();
         msg += ' ! </label>';
         
-        jQuery("#shipping_turno_field").append(jQuery('<div class="ayuda-checkout-shipping">'+msg+'</div>'));
+        jQuery("#shipping_turno_field").append(jQuery('<div class="ayuda-checkout-shipping">'+ msg + '</div>'));
+        
+        if(!deliveryforToday && current_ciudad.cp == "2820"){
+        
+            jQuery("#shipping_turno_field").append(jQuery(botonEmergencia));
+        
+        }
 
     }
 
@@ -142,6 +150,8 @@ function city_change_handler() {
     jQuery("#shipping_turno").append(jQuery('<option value="">Seleccioná un turno para tu entrega</option>'));
     
     jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();    
+    
+    jQuery("#shipping_turno_field #boton_emergencia").remove();    
 
     jQuery.each(current_ciudad.turnos, function(key, turno) {
 

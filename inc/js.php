@@ -34,7 +34,8 @@ function setTimeZone()
     <script type="text/javascript">
 
         let now = new Date(<?php echo ($now) ;?>);
-		//console.log('Current date and local time on this server is <?=$now?> ');
+		// now.setHours(11);
+		// console.log('Current date and local time on this server is <?=$now?> ');
 		
 	</script>
 
