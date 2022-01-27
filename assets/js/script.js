@@ -264,11 +264,7 @@ function init_checkout() {
 
 function mostrar_leyenda_puntos_de_entrega() {
 
-<<<<<<< HEAD:assets/js/script.js
     var tmp = '<p class="ayuda-checkout-shipping">👆 <b>Recuerda</b>: Si no podés esperar el pedido en tu casa, podés elegir un punto de entrega y retirar tu compra cuando puedas.</p>';
-=======
-    var tmp = '<p id="ayuda-checkout-shipping">👆 <b>Recuerda</b>: Si no podés esperar el pedido en tu casa, podés elegir un punto de entrega y retirar tu compra cuando puedas.</p>';
->>>>>>> e092ecfe92fc668a842d1065a2bfcc55e737f967:js/script.js
     //jQuery(tmp).insertBefore( jQuery( "#order_review #payment" ) );
     jQuery( "#shipping_method").append( tmp );
     //console.log(tmp);
