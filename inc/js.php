@@ -24,19 +24,22 @@ function setTimeZone()
 	// $timeZone= "America/Chicago"; -3 HS
 	$timeZone= "America/Argentina/Buenos_Aires";
 	date_default_timezone_set($timeZone);
+	$today = getdate();
 	$timestamp = time();
 	$now = date("Y,m,d,H,i,s", $timestamp);	
 
+	
 	// jQuery
 
     ?>
 
     <script type="text/javascript">
 
-        let now = new Date(<?php echo ($now) ;?>);
+		//console.log('La fecha actual y local en este server es <?=$now?>');
+		let now = new Date(<?=$now?>);
+		let dayOftheWeek = <?=$today['wday']?>;
 		// now.setHours(11);
-		// console.log('Current date and local time on this server is <?=$now?> ');
-		
+
 	</script>
 
     <?php

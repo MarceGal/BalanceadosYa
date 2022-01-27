@@ -64,64 +64,87 @@ function turno_change_handler() {
     if(current_turno){
 
         jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();  
-        jQuery("#shipping_turno_field #boton_emergencia").remove();    
-
+        jQuery("#shipping_turno_field #boton_emergencia").remove();
         // "now" es declarada en el server. js.php        
-        // Console.log( 'La hora local actual en el server es ' + now );
         let hour = now.getHours();
-        let minutes = now.getMinutes();
+        //let minutes = now.getMinutes();
+        //let day = now.getDay(); // The day of the week (0 to 6). Sunday = 0, Monday = 1, ...
+        console.log( 'La hora local actual en el server es ' + now );
+        console.log( 'El dia de la semana es: ' + dayOftheWeek );
         let deliveryforToday = false;
         let turno = current_turno.toLowerCase();
         let when = 'mañana';
         let msg = '';
-        let botonEmergencia = '<div id="boton_emergencia"><p>¿Necesitás realizar un 🚁Pedido de emergencia hoy mismo? <a href="https://api.whatsapp.com/send/?phone=5493446549682&text&app_absent=0" target="_blank">¡Contactanos por Whatsapp!</a></p><div>';
-       
-        if(hour < 10){
-            
-            deliveryforToday  = true;
-            when =  'hoy' ;
+        let botonEmergencia = '<div id="boton_emergencia"><p>¿Necesitás una ENTREGA DE EMERGENCIA hoy mismo? <a href="https://api.whatsapp.com/send/?phone=5493446549682&text&app_absent=0" target="_blank">¡Hace clic acá!</a></p><div>';
+        
+        if( dayOftheWeek != 0){ // Si no es domingo
 
-        } else {
+            if(hour < 10){
+                
+                deliveryforToday  = true;
+                when =  'hoy' ;
 
-            if( turno=="tarde" ){
+            } else {
 
-                if(current_ciudad.cp == "2820" || current_ciudad.cp == "2852"){
-                    
-                    var time1430 = new Date(now);
-                    // "time1430" es declarada en el server. js.php
-                    time1430.setHours(14); 
-                    time1430.setMinutes(30);
-                    console.log( 'La hora time1430 en el server es ' + time1430 );
-                    ///console.log(now, time1430, now.getTime() <= time1430.getTime());
-                    
-                    if( now.getTime() <= time1430.getTime() ){
+                if( turno=="tarde" ){
 
-                        when =  'hoy' ;
-                    
-                    }                
+                    if(current_ciudad.cp == "2820" || current_ciudad.cp == "2852"){
+                        
+                        var time1430 = new Date(now);
+                        // "time1430" es declarada en el server. js.php
+                        time1430.setHours(14); 
+                        time1430.setMinutes(30);
+                        console.log( 'La hora time1430 en el server es ' + time1430 );
+                        ///console.log(now, time1430, now.getTime() <= time1430.getTime());
+                        
+                        if( now.getTime() <= time1430.getTime() ){
+
+                            deliveryforToday  = true;
+                            when =  'hoy' ;
+                        
+                        }                
+
+                    }
 
                 }
-
+                
             }
-            
+
         }
 
         //console.log(current_ciudad);
         //msg += '<p>Hora: '+hour+':'+minutes+'</p>';    
         //msg += '<p>'+'Ciudad : '+current_ciudad.nombre+' ('+current_ciudad.cp+')<p>';
         //msg += '<p>'+'Turno : '+turno+'<p>';
+
         msg += '<label>¡ 📦 Tu pedido estará llegando <strong>';
-        msg += when.toUpperCase();
-        msg += '</strong> por la '+turno;
-        msg += ', de ' +jQuery("#shipping_franja-horaria-desde").val() + ' a ' + jQuery("#shipping_franja-horaria-hasta").val();
+
+        if (!deliveryforToday){
+
+            if (dayOftheWeek == 6){ 
+                msg += "EL LUNES";
+            }else{                
+                msg += when.toUpperCase();
+            }
+
+        }else{
+            msg += when.toUpperCase();
+        }
+
+        msg += '</strong> por la ' + turno;
+        msg += ', entre las ' +jQuery("#shipping_franja-horaria-desde").val() + ' y las ' + jQuery("#shipping_franja-horaria-hasta").val();
         msg += ' ! </label>';
         
         jQuery("#shipping_turno_field").append(jQuery('<div class="ayuda-checkout-shipping">'+ msg + '</div>'));
         
-        if(!deliveryforToday && current_ciudad.cp == "2820"){
-        
-            jQuery("#shipping_turno_field").append(jQuery(botonEmergencia));
-        
+        if(!deliveryforToday && dayOftheWeek != 0){ // Si no hay entregas hoy y  no es domingo
+
+            if(current_ciudad.cp == "2820" || current_ciudad.cp == "2852"){
+
+                jQuery("#shipping_turno_field").append(jQuery(botonEmergencia));
+
+            }
+
         }
 
     }
