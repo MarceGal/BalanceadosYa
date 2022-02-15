@@ -65,6 +65,7 @@ function turno_change_handler() {
 
         jQuery("#shipping_turno_field .ayuda-checkout-shipping").remove();  
         jQuery("#shipping_turno_field #boton_emergencia").remove();
+        
         // "now" es declarada en el server. js.php        
         let hour = now.getHours();
         //let minutes = now.getMinutes();
