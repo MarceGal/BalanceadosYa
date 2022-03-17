@@ -14,29 +14,43 @@
 function conditional_hiding_payment_gateway($available_gateways) {
 
   	
-	if(is_null(WC()->session)) return false;	
+	$upc  = getUserPostCode();
+
+	if(!$upc) return false;	
 
 	//var_dump(WC()->session);
 
-	$_customer = WC()->session->get('customer'); 
+	// $_customer = WC()->session->get('customer'); 
 	
-	$_postcode  = $_customer['postcode'];
+	// $upc  = getUserPostCode();
 
-	$_chosen_payment_method = WC()->session->get('chosen_payment_method');
+	// $_chosen_payment_method = WC()->session->get('chosen_payment_method');
 
 	// mostrar_detalles($_chosen_payment_method);
 	
-	if( $_postcode == VILLAGUAY_POSTCODE || $_postcode == LARROQUE_POSTCODE){
+	if(
+
+	$upc == VILLAGUAY_POSTCODE 
+	|| $upc == LARROQUE_POSTCODE	
+	|| $upc == URDINARRAIN_POSTCODE 
+	|| $upc == CRESPO_POSTCODE 
+	|| $upc == PARANA_POSTCODE
+	|| $upc == SANTA_FE_POSTCODE
+	|| $upc == COLON_POSTCODE
+
+	){
 		
-		// Larroque y Villaguay no cuentan con  "Pago contrarembolso / al recibir"  
+		// No cuentan con  "Pago contrarembolso / al recibir"  
 
 		unset($available_gateways['cod']);
 
-	} else {
+	} 
+	
+	// else {
 		
 		// Desabilitamos "Pago por transferencia bancaria" en todos  exepto  en  Larroque y Villaguay 	
 		// unset($available_gateways['bacs']);
-	}
+	// }
 
     return $available_gateways;
 
