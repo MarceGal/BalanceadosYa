@@ -1,10 +1,18 @@
 <?php 
-
+define("GUALEGUAYCHU_POSTCODE", "2820");
+define("PUEBLO_BELGRANO_POSTCODE", "2852");
+define("C_DEL_U_POSTCODE", "3260");
 define("VILLAGUAY_POSTCODE", "3240");
 define("LARROQUE_POSTCODE", "2854");
-define("C_DEL_U_POSTCODE", "3260");
+define("URDINARRAIN_POSTCODE", "2826");
+define("CRESPO_POSTCODE", "3118");
+define("PARANA_POSTCODE", "3100");
+define("COLON_POSTCODE", "2720");
+define("SANTA_FE_POSTCODE", "3000");
+
 // Descuentos  para transferencias bancarias 
 // Utilizado en checkout-discounts.php 
+
 define("BACS_DISCOUNT", 5); // % Descuento en transferencia bancaria
 define("BACS_DISCOUNT_LEYEND", '¡ 🎉 Tenemos un descuento del '.BACS_DISCOUNT.'% para transferencias bancarias !'); 
 define("COD_DISCOUNT", 5); // % Descuento en pago en efectivo
@@ -226,6 +234,96 @@ function debug_to_console($data)
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 
 }
+
+
+function getUserPostCode() 
+{
+    if(is_null(WC()->session)) return false;
+
+    $_customer = WC()->session->get('customer'); 
+	
+	return $_customer['postcode'];
+
+}
+
+/*Get the selected payment method*/
+
+function getUserPaymentMethod() 
+{
+    $chosen_payment_method = WC()->session->get('chosen_payment_method'); 
+
+    return $chosen_payment_method;
+
+}
+
+
+
+/* VALIDAMOS QUE LA CIUDAD DEL USUARIO TENGA DISPONIBLE DESCUENTOS */
+
+function canUserDiscounts() 
+{
+    $upc  = getUserPostCode() ;
+
+    if( 
+        $upc == URDINARRAIN_POSTCODE 
+        || $upc == CRESPO_POSTCODE 
+        || $upc == PARANA_POSTCODE
+        || $upc == SANTA_FE_POSTCODE
+        || $upc == COLON_POSTCODE
+    ){
+        
+        // No hay descuentos en estas ciudades
+        return false;
+
+    }
+
+    return true;
+
+}
+
+/* REMOVEMOS LOS DESCUENTOS EXISTENTES */
+
+function removeDiscounts() 
+{
+    
+    $fees = WC()->cart->get_fees();
+            
+    foreach ($fees as $key => $fee) {
+        if($fees[$key]->name === BACS_DISCOUNT_LEYEND) {
+            unset($fees[$key]);
+        }
+    }
+
+    WC()->cart->fees_api()->set_fees($fees);
+
+    return true;
+
+}
+
+/* REFRESCAMOS EL CHECKOUT */
+
+function refreshCheckoutFrontEnd() 
+{
+    
+    echo "<script type='text/javascript'> 
+		
+			(function($) { 
+					try {
+    					jQuery(document.body).trigger('update_checkout');   	
+					} catch (error) {
+						console.log(error); 
+					}
+				}
+			)(jQuery); 
+
+	</script>";
+	
+    return true;
+
+}
+
+
+
 
 
 include get_stylesheet_directory() . '/inc/css.php';

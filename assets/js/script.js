@@ -150,8 +150,7 @@ function turno_change_handler() {
 
     }
 
-    //////
-    
+    //////    
 
 }
 
@@ -279,11 +278,39 @@ function init_checkout() {
         turnos: []
     };
 
+    var urdinarrain = {
+        cp: "2826",
+        nombre: "Urdinarrain",
+        turnos: []
+    };    
+
+    var crespo = {
+        cp: "3118",
+        nombre: "Crespo",
+        turnos: []
+    };
+    
+    var parana = {
+        cp: "3100",
+        nombre: "parana",
+        turnos: []
+    };
+
+    var colon = {
+        cp: "2720",
+        nombre: "Colon",
+        turnos: []
+    };
+    
     ciudades.push(gualeguachu);
     ciudades.push(pueblo_belgrano);
     ciudades.push(cDelU);
     ciudades.push(villaguay);
     ciudades.push(larroque);
+    ciudades.push(urdinarrain);
+    ciudades.push(crespo);
+    ciudades.push(parana);
+    ciudades.push(colon);
 
     jQuery("#billing_city").on('change', city_change_handler);
 
