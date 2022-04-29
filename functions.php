@@ -20,68 +20,6 @@ define("COD_DISCOUNT_LEYEND", '¡ 🎉 Tenemos un descuento del '.COD_DISCOUNT.'
 
 
 //*****************************************************
-//**FAVICONS ****************+*************************
-//*****************************************************
-
-
-function BYA_add_favicon(){ 
-
-?>
-<!-- Custom Favicons -->
-<link rel="apple-touch-icon-precomposed" sizes="57x57"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-57x57.png" />
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-114x114.png" />
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-72x72.png" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-144x144.png" />
-<link rel="apple-touch-icon-precomposed" sizes="60x60"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-60x60.png" />
-<link rel="apple-touch-icon-precomposed" sizes="120x120"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-120x120.png" />
-<link rel="apple-touch-icon-precomposed" sizes="76x76"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-76x76.png" />
-<link rel="apple-touch-icon-precomposed" sizes="152x152"
-    href="<?php echo get_stylesheet_directory_uri();?>/favicons/apple-icon-152x152.png" />
-
-<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-196x196.png"
-    sizes="196x196" />
-<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-96x96.png"
-    sizes="96x96" />
-<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-32x32.png"
-    sizes="32x32" />
-<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-16x16.png"
-    sizes="16x16" />
-<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri();?>/favicons/favicon-128.png"
-    sizes="128x128" />
-
-<meta name="msapplication-square70x70logo"
-    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-70x70.png" />
-<meta name="msapplication-square150x150logo"
-    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-150x150.png" />
-<meta name="msapplication-wide310x150logo"
-    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x150.png" />
-<meta name="msapplication-square310x310logo"
-    content="<?php echo get_stylesheet_directory_uri();?>/favicons/mstile-310x310.png" />
-
-<link rel="manifest" href="<?php echo get_stylesheet_directory_uri();?>/favicons/manifest.json">
-
-<meta name="application-name" content="BalanceadosYa!" />
-<meta name="msapplication-TileColor" content="#FFE781">
-<meta name="msapplication-TileImage"
-    content="<?php echo get_stylesheet_directory_uri();?>/favicons/ms-icon-144x144.png">
-<meta name="theme-color" content="#FFE781">
-
-<?php }
-
-add_action('wp_head','BYA_add_favicon');
-
-include get_stylesheet_directory() . '/inc/google-analytics.php';
-
-include get_stylesheet_directory() . '/inc/push-notifications.php';
-
-//*****************************************************
 //**SVG UPLOAD SUPPORT ********************************
 //*****************************************************
 
@@ -94,9 +32,10 @@ function cc_mime_types($mimes) {
 add_filter('upload_mimes', 'cc_mime_types');
  
 //*****************************************************
-//**USER AGENT DETECTION UTILITIES *********************
+//** UTILITIES ***************************************
 //*****************************************************
 
+//USER AGENT DETECTION
 
 function getBrowser() 
 { 
@@ -185,23 +124,6 @@ function getBrowser()
 
 } 
 
-//*****************************************************
-//*****************************************************
-//*****************************************************
-
-function isUserLoggedIn()
-{
-	return is_user_logged_in();
-}
-
-function isCustumerUser()
-{
-	global $current_user;
-    if (!isset($current_user->roles) || empty( $current_user->roles)) return false;
-    $role = $current_user->roles[0];    
-    return in_array($role, array('customer'));
-
-}
 
 function clean_white_spaces($str){
 	$str = ltrim($str);
@@ -209,16 +131,35 @@ function clean_white_spaces($str){
 	return $str;
 }
 
-function mailMarce($message) 
+
+function array2string($data)
 {
-	
-	
+    $log_a = "";
+
+    foreach ($data as $key => $value) {
+
+        if(is_array($value))  {
+        
+            $log_a .= "[".$key."] => (". array2string($value). ") \n";
+
+        } else {
+
+            $log_a .= "[".$key."] => ".$value."\n";
+
+        }         
+              
+    }
+
+    return $log_a;
+}
+
+function mailAdmin($message) 
+{
+
 	//php mailer variables
 	$to = 'claudiomarcelogalarza@gmail.com';
 	$subject = "Notificación desde BalanceadosYa!";
 	$headers = "From: BalanceadosYa! <no-contestar@balanceadosya.com>\r\n". "Reply-To:  no-contestar@balanceadosya.com\r\n";
-	
-	
 	wp_mail($to, $subject, strip_tags($message), $headers);
 	
 }	
@@ -235,6 +176,23 @@ function debug_to_console($data)
 
 }
 
+//*****************************************************
+//*WP Utilities ***************************************
+//*****************************************************
+
+function isUserLoggedIn()
+{
+	return is_user_logged_in();
+}
+
+function isCustumerUser()
+{
+	global $current_user;
+    if (!isset($current_user->roles) || empty( $current_user->roles)) return false;
+    $role = $current_user->roles[0];    
+    return in_array($role, array('customer'));
+
+}
 
 function getUserPostCode() 
 {
@@ -256,11 +214,9 @@ function getUserPaymentMethod()
 
 }
 
-
-
 /* VALIDAMOS QUE LA CIUDAD DEL USUARIO TENGA DISPONIBLE DESCUENTOS */
 
-function canUserDiscounts() 
+function canUserHaveDiscounts() 
 {
     $upc  = getUserPostCode() ;
 
@@ -323,11 +279,73 @@ function refreshCheckoutFrontEnd()
 }
 
 
+//https://wpglorify.com/show-lowest-price-woocommerce-variable-products/ 
 
+//add_filter( 'woocommerce_variable_sale_price_html', 'wpglorify_remove_variation_price', 20, 2 );
+//add_filter( 'woocommerce_variable_price_html', 'wpglorify_remove_variation_price', 20, 2 );
+ 
+
+function wpglorify_remove_variation_price( $price, $product  ) {     
+
+    
+    
+    // Main Price
+
+    
+    $prices = array( $product->get_variation_price( 'min', true ), $product->get_variation_price( 'max', true ) );
+
+    if ( ! is_array($prices)) {        
+        
+        return $price;
+        
+    }
+
+    // $price = $prices[0] !== $prices[1] ? sprintf( __( 'From: %1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
+    $price = $prices[0] ;
+   
+    // Sale Price
+
+    $regularPrices = array( $product->get_variation_regular_price( 'min', true ), $product->get_variation_regular_price( 'max', true ) );
+    
+    sort( $regularPrices );
+
+    //$saleprice = $regularPrices[0] !== $regularPrices[1] ? sprintf( __( 'From: %1$s', 'woocommerce' ), wc_price( $regularPrices[0] ) ) : wc_price( $regularPrices[0] );
+    
+    $saleprice = $regularPrices[0] > $price ? $price : 0 ;
+
+    //if ( $price !== $saleprice ) {
+
+        //$price = '<del>' . $saleprice . $product->get_price_suffix() . '</del> <ins>' . $price . $product->get_price_suffix() . '</ins>';
+    
+    //}
+
+    $output ='';
+
+    //$output .= '---------<br>';
+    //$output .= 'Regular Prices: '.array2string($regularPrices);
+    //$output .= '<br>---------<br>';
+    //$output .= 'Current prices: '. array2string($prices);
+    //$output .= '<br>---------<br>';
+    //$output .= 'Regular price: '.wc_price($price);
+
+    if($saleprice){
+
+        //$output .= 'Antes: '.'<del>' . wc_price($regularPrices[0]) . $product->get_price_suffix() . '</del>';
+        $output .= '<ins> Desde ' . wc_price($saleprice) . $product->get_price_suffix() . '</ins>';
+        //echo $output;
+        return $output;
+    }
+
+    return $price;
+
+}
 
 
 include get_stylesheet_directory() . '/inc/css.php';
 include get_stylesheet_directory() . '/inc/js.php';
+include get_stylesheet_directory() . '/inc/google-analytics.php';
+include get_stylesheet_directory() . '/inc/facebook-pixel.php';
+include get_stylesheet_directory() . '/inc/push-notifications.php';
 //include get_stylesheet_directory() . '/inc/admin-sign-in.php';
 include get_stylesheet_directory() . '/inc/sign-in.php';
 include get_stylesheet_directory() . '/inc/seo.php';

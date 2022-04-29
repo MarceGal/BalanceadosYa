@@ -12,7 +12,7 @@
 *
 */
 
-function calcular_descuentos( WC_Cart $cart ) 
+function calcular_descuentos_por_metodo_de_pago( WC_Cart $cart ) 
 {
     if ( ( is_admin() && ! defined( 'DOING_AJAX' ) ) || is_cart() ) return; // Only on checkout
 
@@ -21,10 +21,10 @@ function calcular_descuentos( WC_Cart $cart )
     $percent = 0; 
 
     // $cart->subtotal_ex_tax = subtotal + impuestos
-
+    
     if(!$cart->subtotal_ex_tax) return false; 
-
-	if( ! canUserDiscounts() ){
+    
+    if( ! canUserHaveDiscounts() ){
 		
 		// No hay descuentos en estas ciudades
         return false;
@@ -97,11 +97,11 @@ function cargar_scripts_adicionales(){
 
 }
 
-function calcular_descuentos_luego_de_evaluar_shipping() 
+function calcular_descuentos_por_metodo_de_envio() 
 {
 
 
-    if( !canUserDiscounts() )
+    if( !canUserHaveDiscounts() )
     {
 
         removeDiscounts();
@@ -130,11 +130,11 @@ function calcular_descuentos_luego_de_evaluar_shipping()
 
 }
 
-add_action( 'woocommerce_cart_calculate_fees','calcular_descuentos', 20, 1 );
+add_action( 'woocommerce_cart_calculate_fees','calcular_descuentos_por_metodo_de_pago', 20, 1 );
 
 add_action( 'wp_footer', 'cargar_scripts_adicionales' ); // Ajax / jQuery script
 
-add_action( 'woocommerce_review_order_after_shipping', 'calcular_descuentos_luego_de_evaluar_shipping', 20 );
+add_action( 'woocommerce_review_order_after_shipping', 'calcular_descuentos_por_metodo_de_envio', 20 );
 
 
 

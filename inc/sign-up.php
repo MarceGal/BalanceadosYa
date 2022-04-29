@@ -158,7 +158,7 @@ add_action( 'woocommerce_register_form', 'formulario_registro_adaptado' );
 add_action( 'woocommerce_created_customer', 'wooc_save_extra_register_fields' );
 add_action( 'woocommerce_register_post', 'wooc_validate_extra_register_fields', 10, 3 );
 
-
+/*
 function formulario_login_adaptado() {
 
 	?>
@@ -198,3 +198,4 @@ function formulario_login_adaptado() {
 };      
 
 //add_action( 'woocommerce_login_form', 'formulario_login_adaptado', 10, 0 ); 
+*/

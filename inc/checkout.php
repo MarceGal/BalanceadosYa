@@ -294,7 +294,7 @@ function my_custom_checkout_field_process()
 		
 		$ntc .= "😿 Lamentablemente no tenemos cobertura en tu provincia. ";
 		wc_add_notice( $ntc, 'error' );
-		mailMarce('Estan entrando a la condición que no tienen provincia');
+		mailAdmin('Estan entrando a la condición que no tienen provincia');
 	
 	}
 	
@@ -380,7 +380,7 @@ function orden_estado_completado($order_id)
 	$user_id = $order->get_user_id();
 	$customer_orders = wc_get_customer_order_count($user_id );
 	
-	//mailMarce('$customer_orders:'.$customer_orders);
+	//mailAdmin('$customer_orders:'.$customer_orders);
 	// Si el usuario tiene más de 5 compras podemos cambiar su nivel
 
 	if ( $customer_orders > 5 ) {
@@ -455,7 +455,7 @@ function orden_estado_completado($order_id)
 
 		}
 		
-		//mailMarce(serialize($user));
+		//mailAdmin(serialize($user));
 		
 	}
 	
@@ -641,16 +641,23 @@ add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_ship
 function esconder_otros_metodos_cuando_hay_free_shipping( $rates )
 {
 	
-	$session_customer = WC()->session->get('customer'); 
-	
-	$customer_postcode = $session_customer['postcode'];
+	$upc = getUserPostCode();
 
-	if ( !isset( $customer_postcode ) || empty( $customer_postcode) ) 
+	if ( !isset( $upc ) || empty( $upc) ) 
 	{
 		return $rates;
 	}
 	
-	if($customer_postcode == VILLAGUAY_POSTCODE || $customer_postcode== LARROQUE_POSTCODE || $customer_postcode== C_DEL_U_POSTCODE){
+	if(
+		$upc == VILLAGUAY_POSTCODE 
+		|| $upc== LARROQUE_POSTCODE 
+		|| $upc== C_DEL_U_POSTCODE
+		|| $upc == URDINARRAIN_POSTCODE 
+        || $upc == CRESPO_POSTCODE 
+        || $upc == PARANA_POSTCODE
+        || $upc == SANTA_FE_POSTCODE
+        || $upc == COLON_POSTCODE
+	){
 
 		$free = array();
 
