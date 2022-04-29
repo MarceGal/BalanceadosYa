@@ -1,0 +1,422 @@
+
+  /*************************/  
+  /*MOBILE******************/  
+  /*************************/
+  
+  /* adjust for Mobile/Tablet devices  */
+  
+  @media (min-width: 0px) and (max-width: 990px) {
+
+    th, td {
+      /*font-size: 1em !important;*/
+    }
+  
+    .medium-1 .res-text, .medium-2 .res-text, .medium-3 .res-text, .medium-4 .res-text, .medium-5 .res-text, .medium-6 .res-text, .medium-7 .res-text {
+      font-size: 1em;
+    }
+  
+    .section.title-separator {
+      padding: 1em 2em !important;
+    }
+  
+    /*Mensajes*/
+  
+    .message-wrapper {
+
+      padding: 0 !important;
+      margin: 0 !important;
+      line-height: 1.4rem;
+
+    }
+  
+    .message-container.alert-color, .success-color {
+      -webkit-border-radius: 0;
+      border-radius: 0;
+      margin: 0;
+      text-align: left !important;
+    }
+  
+    .showlogin, .showcoupon {
+      display: block;
+      clear: both;
+      margin-top: 1em !important;
+    }
+  
+    .woocommerce-form-coupon-toggle .message-wrapper {
+      margin: 0 !important;
+    }
+  
+    .woocommerce-form-coupon .coupon button.button {
+      margin-top: 1em !important;
+    }
+  
+    /*Off canvas menu*/
+  
+    .mfp-close {
+      mix-blend-mode: normal;
+      right: 200px;
+    }
+  
+    /*Slider*/
+
+    .flickity-prev-next-button {
+      background-color: transparent !important;
+    }
+  
+    .slider-nav-light .flickity-prev-next-button svg {
+      color: #2BC1D3 !important;
+    }
+  
+    /*Acordión*/
+  
+    .accordion-title {
+      font-size: 1em;
+      padding: .6em .6em .6em 3em;
+    }
+  
+    .accordion-inner {
+      padding: 1em 1em;
+    }
+  
+    /*Icon box*/
+  
+    .icon-box {
+      .icon-box-img {
+        margin: 0 auto 1em;
+      }
+  
+      .icon-box-text {
+        text-align: center;
+      }
+    }
+  
+    /*Header*/
+  
+    #logo img {
+      max-height: 35px !important;
+    }
+  
+    /*Columnas*/
+  
+  .col {
+
+    &:not(.product) {}
+
+    &.medium-4 {
+      max-width: 100%;
+      -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+      padding: 1em 1em !important;
+    }
+
+    &.medium-6 {
+      padding: 10% !important;
+    }
+
+  }
+  
+  .parallax-title .banner {
+
+    min-height: 200px;
+    height: 200px;
+    padding: 0 !important;
+
+    .text-box {
+      width: 70% !important;
+    }
+
+  }
+  
+  .row .section {
+    padding: 0 !important;
+
+    .col {
+      padding: 5% 0 !important;
+    }
+  }
+  
+  .section.contenido .col-inner {
+    padding: 0 !important;
+  }
+  
+    .box-text {
+      padding: .7em .7em !important;
+    }
+  
+    .row:not(.row-collapse) {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  
+    /*Botones e inputs*/
+
+    input {
+
+      &[type='email'], 
+      &[type='date'], 
+      &[type='search'], 
+      &[type='number'], 
+      &[type='text'], 
+      &[type='tel'], 
+      &[type='url'], 
+      &[type='password'] 
+      {
+        
+        font-size: 1rem;
+        line-height: 1.2rem;
+  
+      }
+  
+    }
+        
+    label, legend {
+        font-size: 1rem;
+        line-height: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    textarea, select, .select-resize-ghost 
+    {
+      font-size: 1rem;
+      line-height: 1.4rem;
+    }
+    
+  
+    /*Tienda*/
+  
+    .woocommerce {
+
+      .col {
+
+        padding: 0 1rem 1rem !important;
+
+        .col-inner 
+        {
+            padding: 1rem;
+        }
+        
+      }
+  
+      form.woocommerce-checkout {
+        margin-top: 1em;
+      }
+
+      &.columns-5{
+        
+
+
+      }
+  
+      &.single-product .col {
+        padding: 10% !important;
+      }
+      
+    }
+  
+    .container.cart-container {
+      padding: 0;
+    }
+    
+    span.amount {
+      color: #2BC1D3;
+    }
+  
+    table.variations select {
+      font-size: 1em;
+    }
+  
+    .variations td {
+      font-size: 0.9em !important;
+    }
+  
+    /*Pagos*/
+
+    
+  .checkout-page-title {
+
+    margin-bottom: 1rem;
+  
+    .page-title-inner {
+
+      padding: 0;
+
+    }
+    
+  }
+  
+
+    .notes{
+
+      textarea{
+        margin-bottom: 0px;
+      }
+
+    }
+
+    .woocommerce form.woocommerce-checkout .large-8.col {
+      padding: 0 !important;
+    }
+  
+    .woocommerce-terms-and-conditions-wrapper .validate-required {
+      margin: 2em 0;
+    }
+  
+    .shop_table {
+      
+      tfoot th {
+        font-size: 1em;
+      }
+  
+      ul li {
+        /*font-size: 0.9em;*/
+      }
+
+    }
+  
+
+    form.checkout {
+
+      h3 {
+        font-size: 1.3rem;
+        padding-top: 0.5rem;
+      }     
+
+    }
+  
+    .woocommerce-order-details h2, .woocommerce-order-received .success-color {
+      margin-bottom: 1.5em;
+    }
+  
+    /*Tienda botonoes*/
+  
+    button.place_order, .checkout-button, .widget_price_filter .price_slider_amount .button, .widget_shopping_cart .button, .coupon input[type='submit'] {
+      /*font-size: 1em;*/
+    }
+  
+    /*Footer*/
+  
+    .absolute-footer {
+      padding: 1em;
+    }
+  
+    #ws-button {
+      left: auto;
+      right: 40px;
+    }
+  
+    .woocommerce.single-product .footer .col {
+      padding: 0 10% !important;
+    }
+  
+    /*CTA*/
+  
+    .section.cta .col {
+      width: 100% !important;
+      max-width: 100% !important;
+      -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+    }
+  
+    /*HOME*/
+  
+    .page-id-1872 .col.medium-6.small-12.large-6 {
+      padding: 1em 1em 0 !important;
+    }
+  
+    /*Página quienes somos*/
+  
+    .section {
+      &.hero {
+        h1 {
+          font-size: 2em;
+        }
+  
+        .col:nth-child(4) {
+          background-position: 50% 0;
+          min-height: 300px;
+          margin-bottom: 0;
+        }
+      }
+  
+      &.hero-2 .col:nth-child(1) {
+        min-height: 300px;
+      }
+  
+      &.cdelu {
+        background-color: rgb(245, 245, 245);
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+      }
+  
+      &.hero-4 {
+        min-height: 350px !important;
+        height: 350px;
+  
+        .bg {
+          background-image: none !important;
+          display: none;
+        }
+      }
+  
+      &.hero-3 {
+        .bg {
+          background-image: none;
+          display: none;
+        }
+  
+        .cta-contenido .col > .col-inner {
+          padding: 0 !important;
+          text-align: center;
+          width: 80%;
+        }
+  
+        h1 {
+          font-size: 2.0em;
+          line-height: 1.2em;
+          margin: 5% 0;
+        }
+      }
+  
+      &.hero-4 .cta-contenido .col {
+        padding: 5% 0% !important;
+        text-align: center;
+      }
+    }
+  
+    /*Página áreas y horarios*/
+  
+    /**/
+  
+    /**/
+  
+    /**/
+  
+    .medium-6 {
+      max-width: 100%;
+      -ms-flex-preferred-size: 50%;
+      flex-basis: 100%;
+    }
+  
+    .footer .col {
+      padding: 0 10% !important;
+    }
+  
+    .section.cta, .row.cta {
+      margin: 0px 10% 40px;
+      padding: 2em 1em 2em !important;
+    }
+  
+    .section.cta .col-inner.text-center, .row.cta .col-inner.text-center {
+      padding: 0 !important;
+    }
+  
+    .section.cta .col:not(.product) {
+      padding: 0 10% !important;
+    }
+  
+    .row.planta {
+      width: 100px;
+      height: 200px;
+      margin: -140px 5% 0 0 !important;
+    }
+  }  

@@ -70,16 +70,22 @@ function sobrescribir_formulario_facturacion( $fields )
 		'class' => array( 'form-row-wide' ),
 		'options' => array(
 			'' => 'Seleccioná tu ciudad',
-			'2820' => 'Gualeguaychú',
-			'2852' => 'Pueblo Belgrano',
-			'3260' => 'Concepción del Uruguay',
-			'3240' => 'Villaguay',
-			'2854' => 'Larroque',
+			GUALEGUAYCHU_POSTCODE => 'Gualeguaychú',
+			PUEBLO_BELGRANO_POSTCODE => 'Pueblo Belgrano',
+			C_DEL_U_POSTCODE => 'Concepción del Uruguay',
+			VILLAGUAY_POSTCODE => 'Villaguay',
+			LARROQUE_POSTCODE => 'Larroque',			
+			URDINARRAIN_POSTCODE => 'Urdinarrain',
+			CRESPO_POSTCODE => 'Crespo',
+			PARANA_POSTCODE => 'Paraná',
+			COLON_POSTCODE => 'Colón',
+			//SANTA_FE_POSTCODE => 'Santa Fe',
+
 		),
-		'default' => '2820'
+		'default' => GUALEGUAYCHU_POSTCODE
 	);	
 
-	//Provincia // Entre Ríos
+	//Provincia // Entre Ríos y Santa Fe
 		
 	$fields['billing_state'] =  array(
 		'label'     => 'Provincia',
@@ -90,7 +96,8 @@ function sobrescribir_formulario_facturacion( $fields )
 		'class' => array( 'form-row-wide' ),
 		'options' => array(
 			'' => 'Seleccioná tu provincia',
-			'E' => 'Entre Ríos'
+			'E' => 'Entre Ríos',
+			'S' => 'Santa Fe'
 		),
 		'default' => 'E'
 	);	
@@ -99,7 +106,7 @@ function sobrescribir_formulario_facturacion( $fields )
 
 	//Código Postal
 	
-	$fields['billing_postcode']['default'] = '2820';
+	$fields['billing_postcode']['default'] = GUALEGUAYCHU_POSTCODE;
 		
 	//Teléfono
 	
@@ -131,7 +138,8 @@ add_filter( 'default_checkout_billing_state', 'change_default_checkout_state', 1
 function custom_woocommerce_states( $states ) 
 {
   $states['AR'] = array(
-    'E' => 'Entre Ríos'
+    'E' => 'Entre Ríos',
+	'S' => 'Santa Fe'
   );
 
   return $states;
@@ -270,7 +278,7 @@ function my_custom_checkout_field_process()
 	
 	if ( isset( $ppc ) && !empty( $ppc) )	{
 
-		if( ($ppc == "2820") || ($ppc == C_DEL_U_POSTCODE ) || ($ppc == "2852")) {
+		if( ($ppc == GUALEGUAYCHU_POSTCODE) || ($ppc == C_DEL_U_POSTCODE ) || ($ppc == PUEBLO_BELGRANO_POSTCODE)) {
 
 			if ( isset( $_POST['shipping_turno'] ) && empty( $_POST['shipping_turno']  )) {			
 
@@ -281,25 +289,21 @@ function my_custom_checkout_field_process()
 		}
 	}
 	
-	
+	/*
 	if ( isset( $_POST['billing_state'] ) && !empty( $_POST['billing_state']) && $_POST['billing_state'] !='E') {
 		
-		/*$ntc .= "😿 Lamentablemente no tenemos cobertura en tu provincia. ";
-		$ntc .= " 😺 Recuerdá que solo entregamos en la ciudad de Gualeguaychú.";
-		wc_add_notice( $ntc, 'error' );*/
-
-		mailMarce('Estan entrando a la condición que no tienen provincia');
-		
+		$ntc .= "😿 Lamentablemente no tenemos cobertura en tu provincia. ";
+		wc_add_notice( $ntc, 'error' );
+		mailAdmin('Estan entrando a la condición que no tienen provincia');
 	
 	}
-	/*
+	
 	if ( isset( $_POST['billing_city'] ) &&
 		! empty( $_POST['billing_city']) &&
 		$_POST['billing_city'] !='Gualeguaychú') {
 		$ntc .= "Lamentablemente no tenemos cobertura en tu ciudad. ";
 		$ntc .= "Recuerdá que solo entregamos en la ciudad de Gualeguaychú";
-		wc_add_notice( $ntc, 'error' );
-	
+		wc_add_notice( $ntc, 'error' );	
 	}
 	*/	
 	
@@ -376,7 +380,7 @@ function orden_estado_completado($order_id)
 	$user_id = $order->get_user_id();
 	$customer_orders = wc_get_customer_order_count($user_id );
 	
-	//mailMarce('$customer_orders:'.$customer_orders);
+	//mailAdmin('$customer_orders:'.$customer_orders);
 	// Si el usuario tiene más de 5 compras podemos cambiar su nivel
 
 	if ( $customer_orders > 5 ) {
@@ -451,7 +455,7 @@ function orden_estado_completado($order_id)
 
 		}
 		
-		//mailMarce(serialize($user));
+		//mailAdmin(serialize($user));
 		
 	}
 	
@@ -556,7 +560,9 @@ function mostrar_detalles_de_shipping()
 	$chosen_shipping_method_id = WC()->session->get( 'chosen_shipping_methods' )[0];
 
 	foreach ( WC()->cart->get_shipping_packages() as $package_id => $package ) {
+		
 		// Check if a shipping for the current package exist
+
 		if ( WC()->session->__isset( 'shipping_for_package_'.$package_id ) ) {
 			// Loop through shipping rates for the current package
 			
@@ -635,16 +641,23 @@ add_action( 'woocommerce_review_order_after_shipping', 'mostrar_detalles_de_ship
 function esconder_otros_metodos_cuando_hay_free_shipping( $rates )
 {
 	
-	$session_customer = WC()->session->get('customer'); 
-	
-	$customer_postcode = $session_customer['postcode'];
+	$upc = getUserPostCode();
 
-	if ( !isset( $customer_postcode ) || empty( $customer_postcode) ) 
+	if ( !isset( $upc ) || empty( $upc) ) 
 	{
 		return $rates;
 	}
 	
-	if($customer_postcode == VILLAGUAY_POSTCODE || $customer_postcode== LARROQUE_POSTCODE || $customer_postcode== C_DEL_U_POSTCODE){
+	if(
+		$upc == VILLAGUAY_POSTCODE 
+		|| $upc== LARROQUE_POSTCODE 
+		|| $upc== C_DEL_U_POSTCODE
+		|| $upc == URDINARRAIN_POSTCODE 
+        || $upc == CRESPO_POSTCODE 
+        || $upc == PARANA_POSTCODE
+        || $upc == SANTA_FE_POSTCODE
+        || $upc == COLON_POSTCODE
+	){
 
 		$free = array();
 

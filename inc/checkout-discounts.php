@@ -12,20 +12,28 @@
 *
 */
 
-function calcular_descuentos( WC_Cart $cart ) 
+function calcular_descuentos_por_metodo_de_pago( WC_Cart $cart ) 
 {
-    
     if ( ( is_admin() && ! defined( 'DOING_AJAX' ) ) || is_cart() ) return; // Only on checkout
 
     $label_text= "";
 
     $percent = 0; 
 
-    if(!$cart->subtotal_ex_tax) return false;
+    // $cart->subtotal_ex_tax = subtotal + impuestos
+    
+    if(!$cart->subtotal_ex_tax) return false; 
+    
+    if( ! canUserHaveDiscounts() ){
+		
+		// No hay descuentos en estas ciudades
+        return false;
 
+    }
+    
     $cart_total = $cart->subtotal_ex_tax;
 
-    $chosen_payment_method = WC()->session->get('chosen_payment_method'); //Get the selected payment method
+    $chosen_payment_method = getUserPaymentMethod();
 
     $percent = 0; 
 
@@ -34,10 +42,9 @@ function calcular_descuentos( WC_Cart $cart )
         case "bacs": // Direct Bank Transfer  
             $percent = BACS_DISCOUNT;
             $label_text = BACS_DISCOUNT_LEYEND;
-            break;
+            break; 
 
         case "cod": //Cash on Delivery
-
             
             if (isCustumerUser() || ! isUserLoggedIn()) {            
                 
@@ -59,13 +66,12 @@ function calcular_descuentos( WC_Cart $cart )
 
     $discount = number_format(($cart_total / 100) * $percent, 2); // Calculating percentage
     
-    $cart->add_fee( $label_text, -$discount, false ); // Adding the discount
-
-    
+    $cart->add_fee( $label_text, -$discount, false ); // Adding the discount    
 
 }
 
-function refrescar_en_metodo_pago(){
+
+function cargar_scripts_adicionales(){
 
     // jQuery
     ?>
@@ -76,8 +82,12 @@ function refrescar_en_metodo_pago(){
 
             $( 'form.checkout' ).on( 'change', 'input[name^="payment_method"]', function() {
 
-                $('body').trigger('update_checkout');
-                //console.log('Recalculando...');
+                try {
+                    jQuery(document.body).trigger('update_checkout');   	
+                } catch (error) {
+                   console.log(error); 
+                }
+
             });            
 
         })(jQuery);
@@ -87,24 +97,26 @@ function refrescar_en_metodo_pago(){
 
 }
 
-function calcular_descuentos_luego_de_evaluar_shipping() 
+function calcular_descuentos_por_metodo_de_envio() 
 {
 
-    $chosen_payment_method = WC()->session->get('chosen_payment_method'); //Get the selected payment method
+
+    if( !canUserHaveDiscounts() )
+    {
+
+        removeDiscounts();
+
+        return refreshCheckoutFrontEnd();
+    
+    }
+    
+    $chosen_payment_method = getUserPaymentMethod();
 
 	//print_r('<script type="text/javascript">console.log("Metodo de pago elegido: '.$chosen_payment_method.'");</script>');
             
     if( $chosen_payment_method != "bacs") {           
 		
-		$fees = WC()->cart->get_fees();
-		
-		foreach ($fees as $key => $fee) {
-			if($fees[$key]->name === BACS_DISCOUNT_LEYEND) {
-				unset($fees[$key]);
-			}
-		}
-	
-		WC()->cart->fees_api()->set_fees($fees);
+		removeDiscounts();
 
     }else {
                 
@@ -114,31 +126,15 @@ function calcular_descuentos_luego_de_evaluar_shipping()
 
 	}
 
-	echo "<script type='text/javascript'> 
-		
-			(function($) { 
-					try {
-    					jQuery(document.body).trigger('update_checkout');   	
-					} catch (error) {
-						//console.log(error); 
-					}
-				}
-			)(jQuery); 
-
-	</script>";
-	
-
-	/**************************************/
-
-	return true;
+	return refreshCheckoutFrontEnd();
 
 }
 
-add_action( 'woocommerce_cart_calculate_fees','calcular_descuentos', 20, 1 );
+add_action( 'woocommerce_cart_calculate_fees','calcular_descuentos_por_metodo_de_pago', 20, 1 );
 
-add_action( 'wp_footer', 'refrescar_en_metodo_pago' ); // Ajax / jQuery script
+add_action( 'wp_footer', 'cargar_scripts_adicionales' ); // Ajax / jQuery script
 
-add_action( 'woocommerce_review_order_after_shipping', 'calcular_descuentos_luego_de_evaluar_shipping', 20 );
+add_action( 'woocommerce_review_order_after_shipping', 'calcular_descuentos_por_metodo_de_envio', 20 );
 
 
 
@@ -150,4 +146,3 @@ add_action( 'woocommerce_review_order_after_shipping', 'calcular_descuentos_lueg
 * Plugin -> https://es.wordpress.org/plugins/woo-payment-discounts/
 *
 */
-
